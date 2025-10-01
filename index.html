@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark scroll-smooth">
+<html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,312 +17,813 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- TailwindCSS Output -->
-    <link href="./dist/output.css" rel="stylesheet">
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'slide-left': 'slideLeft 0.5s ease-out',
+                        'slide-right': 'slideRight 0.5s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'slide-down': 'slideDown 0.5s ease-out',
+                        'zoom-in': 'zoomIn 0.5s ease-out',
+                        'spin-slow': 'spin 20s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.5' },
+                        },
+                        slideLeft: {
+                            '0%': { transform: 'translateX(100px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        slideRight: {
+                            '0%': { transform: 'translateX(-100px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        zoomIn: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    },
+                    backgroundImage: {
+                        'grid-pattern': 'linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px)',
+                    }
+                }
+            }
+        }
+    </script>
     
-    <!-- Font Awesome for Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+    <!-- Custom Styles -->
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Light mode colors */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Dark mode colors */
+        .dark {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+            border-radius: 5px;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        /* Navigation active state */
+        .nav-link {
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        /* Card hover effect */
+        .card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f687b3, #667eea);
+            background-size: 400% 400%;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+            animation: gradient-rotate 3s ease infinite;
+            z-index: -1;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes gradient-rotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-size: 4rem;
+            font-weight: 900;
+            animation: pulse 1.5s ease infinite;
+        }
+
+        .loader-progress {
+            width: 200px;
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+
+        .loader-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+            animation: progress 2s ease-out;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.95); }
+        }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger animation */
+        .stagger {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .stagger.active {
+            animation: slideUp 0.6s ease forwards;
+        }
+
+        .stagger:nth-child(1) { animation-delay: 0.1s; }
+        .stagger:nth-child(2) { animation-delay: 0.2s; }
+        .stagger:nth-child(3) { animation-delay: 0.3s; }
+        .stagger:nth-child(4) { animation-delay: 0.4s; }
+        .stagger:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Floating shapes animation */
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .shape:nth-child(odd) {
+            animation-duration: 20s;
+        }
+
+        /* Skill progress animation */
+        .skill-progress {
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 3px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        .skill-progress-bar.animate {
+            animation: fillProgress 1.5s ease forwards;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Parallax effect */
+        .parallax {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* Smooth transitions for theme toggle */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Typing cursor */
+        .typing-cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
 </head>
-<body class="overflow-x-hidden" style="overflow: hidden;">
+<body class="bg-white dark:bg-slate-900 text-gray-900 dark:text-gray-100">
     <!-- Page Loader -->
-    <div id="page-loader" class="fixed inset-0 z-[9999] bg-gradient-to-br from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 flex items-center justify-center transition-opacity duration-300">
-        <div class="text-center">
-            <!-- Logo Animation -->
-            <div class="mb-8">
-                <div class="text-6xl font-black gradient-text animate-pulse">DVH.</div>
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-logo gradient-text">DVH.</div>
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
             </div>
-            
-            <!-- Progress Bar -->
-            <div class="w-64 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden mb-4">
-                <div id="loader-progress" class="h-full bg-gradient-to-r from-primary-600 to-purple-600 transition-all duration-300" style="width: 0%"></div>
-            </div>
-            
-            <!-- Percentage -->
-            <div id="loader-percentage" class="text-sm text-gray-600 dark:text-gray-400 font-mono font-semibold">0%</div>
-            
-            <!-- Loading Text -->
-            <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">Đang tải portfolio...</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Đang tải portfolio...</p>
         </div>
     </div>
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 md:px-12">
-            <div class="flex items-center justify-between h-20">
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
                 <!-- Logo -->
-                <a href="#home" class="text-2xl font-bold gradient-text hover:scale-105 transition-transform">
-                    DVH<span class="text-gray-900 dark:text-white">.</span>
+                <a href="#home" class="text-2xl font-bold gradient-text flex items-center gap-2">
+                    <span class="text-3xl">DVH</span>
+                    <span class="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></span>
                 </a>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#home" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Home</a>
-                    <a href="#about" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">About</a>
-                    <a href="#skills" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Skills</a>
-                    <a href="#projects" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Projects</a>
-                    <a href="#contact" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Contact</a>
-                    
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all" aria-label="Toggle theme">
-                        <i class="fas fa-moon text-gray-700 dark:text-gray-300"></i>
-                    </button>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#home" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Trang chủ</a>
+                    <a href="#about" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Giới thiệu</a>
+                    <a href="#skills" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Kỹ năng</a>
+                    <a href="#projects" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Dự án</a>
+                    <a href="#contact" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Liên hệ</a>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all" aria-label="Toggle menu">
-                    <i class="fas fa-bars text-xl text-gray-700 dark:text-gray-300"></i>
-                </button>
+                <!-- Right section -->
+                <div class="flex items-center gap-4">
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-sun text-xl text-gray-700 dark:text-gray-300" id="theme-icon"></i>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-bars text-xl text-gray-700 dark:text-gray-300"></i>
+                    </button>
+                </div>
             </div>
-        </div>
+        </nav>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden glass mx-6 rounded-xl overflow-hidden mb-4">
-            <div class="flex flex-col p-6 gap-4">
-                <a href="#home" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Home</a>
-                <a href="#about" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">About</a>
-                <a href="#skills" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Skills</a>
-                <a href="#projects" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Projects</a>
-                <a href="#contact" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Contact</a>
+        <div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-white dark:bg-slate-900 shadow-2xl mobile-menu lg:hidden">
+            <div class="p-6">
+                <button id="close-menu" class="mb-8 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+                <nav class="flex flex-col gap-4">
+                    <a href="#home" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Trang chủ</a>
+                    <a href="#about" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Giới thiệu</a>
+                    <a href="#skills" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Kỹ năng</a>
+                    <a href="#projects" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Dự án</a>
+                    <a href="#contact" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Liên hệ</a>
+                </nav>
             </div>
         </div>
-    </nav>
+    </header>
 
     <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
-        <!-- Animated Background -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+        <!-- Animated background -->
         <div class="absolute inset-0 -z-10">
-            <div class="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-purple-500/5 to-pink-500/5 dark:from-primary-500/10 dark:via-purple-500/10 dark:to-pink-500/10"></div>
-            <canvas id="particles-canvas" class="absolute inset-0 opacity-40 dark:opacity-100"></canvas>
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800"></div>
+            <div class="absolute inset-0 bg-grid-pattern bg-[size:40px_40px] opacity-[0.03] dark:opacity-[0.05]"></div>
             
-            <!-- Floating Shapes -->
-            <div class="absolute top-20 left-10 w-20 h-20 bg-primary-500/10 rounded-full blur-xl animate-float"></div>
-            <div class="absolute top-40 right-20 w-32 h-32 bg-accent-purple/10 rounded-full blur-xl animate-float" style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-40 left-1/4 w-24 h-24 bg-accent-pink/10 rounded-full blur-xl animate-float" style="animation-delay: 2s;"></div>
+            <!-- Floating shapes -->
+            <div class="shape w-64 h-64 bg-gradient-to-br from-indigo-400 to-purple-400 rounded-full blur-3xl top-10 -left-32"></div>
+            <div class="shape w-96 h-96 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full blur-3xl bottom-10 -right-48"></div>
+            <div class="shape w-72 h-72 bg-gradient-to-br from-indigo-400 to-cyan-400 rounded-full blur-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-6 md:px-12 text-center z-10">
-            <!-- Avatar -->
-            <div class="mb-8 inline-block relative group">
-                <div class="absolute inset-0 bg-gradient-to-r from-primary-500 via-accent-purple to-accent-pink rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-opacity animate-pulse"></div>
-                <img data-src="./assets/avatar.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23e5e7eb' width='400' height='400'/%3E%3C/svg%3E" alt="Đoàn Vĩnh Hưng" 
-                     class="relative w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-white dark:border-gray-900 shadow-2xl transform group-hover:scale-105 transition-all duration-300 loading">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Left content -->
+                    <div class="text-center lg:text-left">
+                        <div class="inline-block mb-6 reveal">
+                            <span class="px-4 py-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium">
+                                <i class="fas fa-rocket mr-2"></i>Xin chào, tôi là
+                            </span>
+                        </div>
+                        
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 reveal" style="animation-delay: 0.1s">
+                            <span class="block">Đoàn Vĩnh</span>
+                            <span class="gradient-text">Hưng</span>
+                        </h1>
+
+                        <div class="text-2xl sm:text-3xl mb-6 reveal" style="animation-delay: 0.2s">
+                            <span class="text-gray-600 dark:text-gray-400">Tôi là</span>
+                            <span id="typed-role" class="ml-2 font-bold text-indigo-600 dark:text-indigo-400"></span>
+                            <span class="typing-cursor">|</span>
+                        </div>
+
+                        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 reveal" style="animation-delay: 0.3s">
+                            Đam mê tạo ra những trải nghiệm web hiện đại, tối ưu và sáng tạo. 
+                            Biến ý tưởng thành hiện thực với code sạch và hiệu quả.
+                        </p>
+
+                        <div class="flex flex-wrap gap-4 justify-center lg:justify-start reveal" style="animation-delay: 0.4s">
+                            <a href="#projects" class="btn-primary">
+                                <i class="fas fa-briefcase mr-2"></i>Xem dự án
+                            </a>
+                            <a href="#contact" class="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 rounded-xl font-semibold hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-400 dark:hover:text-gray-900 transition-all duration-300">
+                                <i class="fas fa-envelope mr-2"></i>Liên hệ
+                            </a>
+                        </div>
+
+                        <!-- Social links -->
+                        <div class="flex gap-4 mt-8 justify-center lg:justify-start reveal" style="animation-delay: 0.5s">
+                            <a href="https://github.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://facebook.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right content - Avatar -->
+                    <div class="relative reveal" style="animation-delay: 0.2s">
+                        <div class="relative mx-auto w-80 h-80 lg:w-96 lg:h-96">
+                            <!-- Animated border -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full animate-spin-slow"></div>
+                            
+                            <!-- Avatar container -->
+                            <div class="absolute inset-2 bg-white dark:bg-slate-900 rounded-full p-2">
+                                <img src="https://ui-avatars.com/api/?name=Doan+Vinh+Hung&size=400&background=667eea&color=fff&bold=true" alt="Đoàn Vĩnh Hưng" class="w-full h-full object-cover rounded-full">
+                            </div>
+                            
+                            <!-- Floating elements -->
+                            <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-white font-bold animate-float shadow-xl">
+                                <i class="fas fa-code text-2xl"></i>
+                            </div>
+                            <div class="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-white font-bold animate-float shadow-xl" style="animation-delay: 1s;">
+                                <i class="fas fa-palette text-2xl"></i>
+                            </div>
+                            <div class="absolute top-1/2 -right-8 w-16 h-16 bg-gradient-to-br from-cyan-500 to-indigo-500 rounded-xl flex items-center justify-center text-white font-bold animate-float shadow-xl" style="animation-delay: 2s;">
+                                <i class="fas fa-rocket text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <!-- Greeting -->
-            <div class="mb-4">
-                <span class="text-primary-600 dark:text-primary-400 font-mono text-sm md:text-base font-semibold">👋 Xin chào, tôi là</span>
-            </div>
-
-            <!-- Name -->
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 animate-slide-down">
-                <span class="gradient-text">Đoàn Vĩnh Hưng</span>
-            </h1>
-
-            <!-- Typing Text -->
-            <div class="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 h-16 flex items-center justify-center">
-                <span class="text-gray-700 dark:text-gray-300">Tôi là một </span>
-                <span id="typed-text" class="gradient-text ml-2"></span>
-                <span id="cursor" class="inline-block w-1 h-8 bg-primary-600 dark:bg-primary-400 ml-1 animate-pulse"></span>
-            </div>
-
-            <!-- Description -->
-            <p class="text-gray-600 dark:text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 animate-fade-in">
-                Đam mê tạo ra những trải nghiệm web hiện đại, tối ưu và sáng tạo. 
-                Biến ý tưởng thành hiện thực với code.
-            </p>
-
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up">
-                <a href="#projects" class="btn-primary group">
-                    <span class="flex items-center gap-2">
-                        Xem Projects
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </span>
-                </a>
-                <a href="#contact" class="btn-outline group">
-                    <span class="flex items-center gap-2">
-                        Liên Hệ
-                        <i class="fas fa-envelope group-hover:scale-110 transition-transform"></i>
-                    </span>
-                </a>
-                <a href="./assets/cv.pdf" download class="btn-outline group">
-                    <span class="flex items-center gap-2">
-                        <i class="fas fa-download group-hover:-translate-y-1 transition-transform"></i>
-                        Tải CV
-                    </span>
-                </a>
-            </div>
-
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-                <a href="#about" class="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    <span class="text-sm font-mono font-medium">Scroll Down</span>
-                    <i class="fas fa-chevron-down"></i>
-                </a>
-            </div>
-
-            <!-- Visitor Counter (Easter Egg) -->
-            <div class="absolute top-4 right-4 glass px-4 py-2 rounded-lg hidden md:block">
-                <span class="text-xs text-gray-600 dark:text-gray-400">Visitor #<span id="visitor-count" class="text-primary-600 dark:text-primary-400 font-mono font-semibold">1337</span></span>
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
+            <div class="animate-bounce">
+                <i class="fas fa-chevron-down text-2xl text-gray-400"></i>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section-padding relative">
-        <div class="max-w-7xl mx-auto">
-            <!-- Section Title -->
+    <section id="about" class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-50/30 to-transparent dark:via-indigo-900/10"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl font-black mb-4">
-                    <span class="gradient-text">Về Tôi</span>
+                <h2 class="text-4xl sm:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Về tôi</span>
                 </h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-primary-500 to-accent-purple mx-auto rounded-full"></div>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Khám phá hành trình và đam mê của tôi trong thế giới lập trình
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <!-- Left: Image & Stats -->
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Image side -->
                 <div class="reveal">
                     <div class="relative">
-                        <!-- Decorative Element -->
-                        <div class="absolute -inset-4 bg-gradient-to-r from-primary-500 to-accent-purple rounded-2xl blur-2xl opacity-20"></div>
+                        <div class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur-2xl opacity-30"></div>
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop" alt="About me" class="relative rounded-2xl shadow-2xl w-full">
                         
-                        <div class="relative glass p-8 rounded-2xl">
-                            <img data-src="./assets/about-image.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect fill='%23e5e7eb' width='800' height='600'/%3E%3C/svg%3E" alt="About Me" 
-                                 class="rounded-xl w-full shadow-2xl mb-6 loading">
-                            
-                            <!-- Quick Stats -->
-                            <div class="grid grid-cols-3 gap-4 text-center">
-                                <div class="glass p-4 rounded-lg">
-                                    <div class="text-3xl font-bold gradient-text" data-count="2">0</div>
-                                    <div class="text-xs text-gray-400 mt-1">Năm Kinh Nghiệm</div>
-                                </div>
-                                <div class="glass p-4 rounded-lg">
-                                    <div class="text-3xl font-bold gradient-text" data-count="15">0</div>
-                                    <div class="text-xs text-gray-400 mt-1">Projects</div>
-                                </div>
-                                <div class="glass p-4 rounded-lg">
-                                    <div class="text-3xl font-bold gradient-text" data-count="999">0</div>
-                                    <div class="text-xs text-gray-400 mt-1">☕ Coffee</div>
-                                </div>
+                        <!-- Stats cards -->
+                        <div class="absolute -bottom-6 left-6 right-6 grid grid-cols-3 gap-3">
+                            <div class="glass rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold gradient-text">2+</div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400">Năm KN</div>
+                            </div>
+                            <div class="glass rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold gradient-text">15+</div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400">Dự án</div>
+                            </div>
+                            <div class="glass rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold gradient-text">10+</div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400">Khách hàng</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Content -->
-                <div class="reveal space-y-6">
-                    <h3 class="text-3xl font-bold text-white">
-                        Chào mừng đến với <span class="gradient-text">Creative Space</span> của tôi!
+                <!-- Content side -->
+                <div class="reveal" style="animation-delay: 0.2s">
+                    <h3 class="text-3xl font-bold mb-6">
+                        Chào mừng đến với thế giới 
+                        <span class="gradient-text">sáng tạo</span> của tôi
                     </h3>
                     
-                    <p class="text-gray-400 leading-relaxed">
-                        Là một <span class="text-primary-400 font-semibold">Frontend Developer</span> đam mê, 
-                        tôi luôn tìm kiếm cách để biến những ý tưởng sáng tạo thành những sản phẩm web 
-                        có trải nghiệm người dùng tuyệt vời.
-                    </p>
-                    
-                    <p class="text-gray-400 leading-relaxed">
-                        Với nền tảng vững về <span class="text-accent-purple font-semibold">HTML, CSS, JavaScript</span> 
-                        và <span class="text-accent-pink font-semibold">TailwindCSS</span>, tôi tập trung vào việc 
-                        tạo ra những giao diện đẹp mắt, hiện đại và tối ưu về hiệu suất.
-                    </p>
-
-                    <div class="flex flex-wrap gap-2 py-4">
-                        <span class="px-4 py-2 glass rounded-full text-sm">🎨 UI/UX Design</span>
-                        <span class="px-4 py-2 glass rounded-full text-sm">⚡ Performance</span>
-                        <span class="px-4 py-2 glass rounded-full text-sm">📱 Responsive</span>
-                        <span class="px-4 py-2 glass rounded-full text-sm">♿ Accessibility</span>
+                    <div class="space-y-4 text-gray-600 dark:text-gray-400">
+                        <p>
+                            Với niềm đam mê công nghệ và thiết kế, tôi đã dành hơn 2 năm để nghiên cứu và phát triển 
+                            các giải pháp web hiện đại. Mỗi dự án là một cơ hội để tôi học hỏi và sáng tạo.
+                        </p>
+                        <p>
+                            Tôi tin rằng một website tốt không chỉ đẹp về mặt thẩm mỹ mà còn phải mang lại trải nghiệm 
+                            người dùng tuyệt vời, tối ưu về hiệu suất và dễ dàng bảo trì.
+                        </p>
                     </div>
 
-                    <a href="./assets/cv.pdf" download class="inline-flex btn-primary">
-                        <i class="fas fa-download mr-2"></i>
-                        Download CV
-                    </a>
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-graduation-cap text-indigo-600 dark:text-indigo-400"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Học vấn</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Cử nhân CNTT</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-briefcase text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Kinh nghiệm</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">2+ năm</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-pink-600 dark:text-pink-400"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Vị trí</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Việt Nam</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-language text-cyan-600 dark:text-cyan-400"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Ngôn ngữ</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Việt, Anh</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <a href="#contact" class="btn-primary">
+                            <i class="fas fa-envelope mr-2"></i>Liên hệ ngay
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="section-padding relative bg-gradient-to-b from-transparent via-primary-900/5 to-transparent">
-        <div class="max-w-7xl mx-auto">
-            <!-- Section Title -->
+    <section id="skills" class="py-20 bg-gray-50 dark:bg-slate-800/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl font-black mb-4">
-                    <span class="gradient-text">Kỹ Năng & Công Nghệ</span>
+                <h2 class="text-4xl sm:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Kỹ năng</span>
                 </h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-primary-500 to-accent-purple mx-auto rounded-full"></div>
-                <p class="text-gray-400 mt-4">Tech stack mà tôi sử dụng hàng ngày</p>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Các công nghệ và công cụ tôi sử dụng để biến ý tưởng thành hiện thực
+                </p>
             </div>
 
-            <!-- Skills Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Frontend -->
-                <div class="card-glow reveal group">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300">
-                            <i class="fab fa-html5 text-2xl text-white group-hover:animate-bounce"></i>
+            <div class="max-w-6xl mx-auto">
+                <!-- Skill categories -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Frontend -->
+                    <div class="card glass rounded-2xl p-6 reveal stagger">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center text-white">
+                                <i class="fas fa-code text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Frontend</h3>
                         </div>
-                        <h3 class="text-xl font-bold">Frontend</h3>
+                        <div class="space-y-4">
+                            <div class="skill-item" data-skill="HTML/CSS" data-level="95">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">HTML/CSS</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">95%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="95%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="JavaScript" data-level="90">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">JavaScript</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">90%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="React" data-level="85">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">React</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">85%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="TailwindCSS" data-level="90">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">TailwindCSS</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">90%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="90%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-3">
-                        <div class="skill-item" data-skill="HTML5" data-level="95"></div>
-                        <div class="skill-item" data-skill="CSS3" data-level="90"></div>
-                        <div class="skill-item" data-skill="JavaScript" data-level="85"></div>
-                        <div class="skill-item" data-skill="TailwindCSS" data-level="90"></div>
-                    </div>
-                </div>
 
-                <!-- Backend -->
-                <div class="card-glow reveal group" style="animation-delay: 0.1s;">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                            <i class="fab fa-node text-2xl text-white group-hover:animate-bounce"></i>
+                    <!-- Backend -->
+                    <div class="card glass rounded-2xl p-6 reveal stagger">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-white">
+                                <i class="fas fa-server text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Backend</h3>
                         </div>
-                        <h3 class="text-xl font-bold">Backend</h3>
+                        <div class="space-y-4">
+                            <div class="skill-item" data-skill="Node.js" data-level="80">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">Node.js</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">80%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="80%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="Express" data-level="75">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">Express</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">75%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="75%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="MongoDB" data-level="70">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">MongoDB</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">70%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="70%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="REST API" data-level="85">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">REST API</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">85%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="85%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-3">
-                        <div class="skill-item" data-skill="Node.js" data-level="75"></div>
-                        <div class="skill-item" data-skill="Express" data-level="70"></div>
-                        <div class="skill-item" data-skill="Django" data-level="65"></div>
-                        <div class="skill-item" data-skill="REST API" data-level="80"></div>
-                    </div>
-                </div>
 
-                <!-- Database -->
-                <div class="card-glow reveal group" style="animation-delay: 0.2s;">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300">
-                            <i class="fas fa-database text-2xl text-white group-hover:animate-bounce"></i>
+                    <!-- Tools -->
+                    <div class="card glass rounded-2xl p-6 reveal stagger">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white">
+                                <i class="fas fa-tools text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Công cụ</h3>
                         </div>
-                        <h3 class="text-xl font-bold">Database</h3>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="skill-item" data-skill="PostgreSQL" data-level="75"></div>
-                        <div class="skill-item" data-skill="MongoDB" data-level="70"></div>
-                        <div class="skill-item" data-skill="Supabase" data-level="80"></div>
-                        <div class="skill-item" data-skill="Firebase" data-level="70"></div>
-                    </div>
-                </div>
-
-                <!-- Tools -->
-                <div class="card-glow reveal group" style="animation-delay: 0.3s;">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                            <i class="fas fa-tools text-2xl text-white group-hover:animate-bounce"></i>
+                        <div class="space-y-4">
+                            <div class="skill-item" data-skill="Git" data-level="85">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">Git</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">85%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="VS Code" data-level="95">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">VS Code</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">95%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="95%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="Figma" data-level="75">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">Figma</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">75%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="75%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="Photoshop" data-level="70">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium">Photoshop</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">70%</span>
+                                </div>
+                                <div class="skill-progress">
+                                    <div class="skill-progress-bar" style="width: 0" data-width="70%"></div>
+                                </div>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-bold">Tools</h3>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="skill-item" data-skill="Git" data-level="85"></div>
-                        <div class="skill-item" data-skill="Docker" data-level="70"></div>
-                        <div class="skill-item" data-skill="Figma" data-level="80"></div>
-                        <div class="skill-item" data-skill="VS Code" data-level="95"></div>
                     </div>
                 </div>
             </div>
@@ -330,148 +831,128 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="section-padding relative">
-        <div class="max-w-7xl mx-auto">
-            <!-- Section Title -->
+    <section id="projects" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl font-black mb-4">
-                    <span class="gradient-text">Projects Nổi Bật</span>
+                <h2 class="text-4xl sm:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Dự án nổi bật</span>
                 </h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-primary-500 to-accent-purple mx-auto rounded-full"></div>
-                <p class="text-gray-400 mt-4">Một số dự án tôi đã thực hiện</p>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Một số dự án tiêu biểu thể hiện kỹ năng và sự sáng tạo của tôi
+                </p>
             </div>
 
-            <!-- Filter Buttons -->
-            <div class="flex flex-wrap justify-center gap-4 mb-12 reveal">
-                <button class="filter-btn active px-6 py-2 rounded-full glass hover:bg-primary-500/20 transition-colors" data-filter="all">
-                    Tất Cả
-                </button>
-                <button class="filter-btn px-6 py-2 rounded-full glass hover:bg-primary-500/20 transition-colors" data-filter="frontend">
-                    Frontend
-                </button>
-                <button class="filter-btn px-6 py-2 rounded-full glass hover:bg-primary-500/20 transition-colors" data-filter="fullstack">
-                    Full-stack
-                </button>
-                <button class="filter-btn px-6 py-2 rounded-full glass hover:bg-primary-500/20 transition-colors" data-filter="ui">
-                    UI/UX
-                </button>
+            <!-- Filter buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12 reveal">
+                <button class="filter-btn px-4 py-2 rounded-lg bg-indigo-600 text-white" data-filter="all">Tất cả</button>
+                <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="web">Web App</button>
+                <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="mobile">Mobile</button>
+                <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="design">UI/UX</button>
             </div>
 
-            <!-- Projects Grid -->
-            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project cards will be dynamically generated -->
+            <!-- Projects grid -->
+            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Project items will be inserted here by JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section-padding relative">
-        <div class="max-w-7xl mx-auto">
-            <!-- Section Title -->
+    <section id="contact" class="py-20 bg-gray-50 dark:bg-slate-800/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl font-black mb-4">
-                    <span class="gradient-text">Liên Hệ</span>
+                <h2 class="text-4xl sm:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Liên hệ</span>
                 </h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-primary-500 to-accent-purple mx-auto rounded-full"></div>
-                <p class="text-gray-400 mt-4">Hãy kết nối với tôi!</p>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Hãy kết nối với tôi để cùng tạo ra những điều tuyệt vời
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-12">
-                <!-- Contact Info -->
-                <div class="reveal space-y-8">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-6">Thông Tin Liên Lạc</h3>
-                        <p class="text-gray-400 mb-8">
-                            Tôi luôn sẵn sàng thảo luận về các dự án mới, ý tưởng sáng tạo 
-                            hoặc cơ hội hợp tác. Hãy liên hệ với tôi!
-                        </p>
-                    </div>
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
+                <!-- Contact info -->
+                <div class="reveal">
+                    <h3 class="text-2xl font-bold mb-6">Thông tin liên hệ</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-8">
+                        Tôi luôn sẵn sàng thảo luận về các dự án mới, ý tưởng sáng tạo 
+                        hoặc cơ hội hợp tác. Hãy liên hệ với tôi!
+                    </p>
 
-                    <!-- Contact Items -->
-                    <div class="space-y-6">
-                        <a href="mailto:doanvinhhung@example.com" class="flex items-center gap-4 glass p-4 rounded-xl hover:bg-white/10 transition-colors group">
-                            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-accent-purple rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i class="fas fa-envelope text-xl text-white"></i>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-envelope text-indigo-600 dark:text-indigo-400"></i>
                             </div>
                             <div>
-                                <div class="text-sm text-gray-400">Email</div>
-                                <div class="font-semibold">doanvinhhung@example.com</div>
+                                <div class="font-semibold">Email</div>
+                                <a href="mailto:doanvinhhung@example.com" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                    doanvinhhung@example.com
+                                </a>
                             </div>
-                        </a>
-
-                        <a href="tel:+84123456789" class="flex items-center gap-4 glass p-4 rounded-xl hover:bg-white/10 transition-colors group">
-                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i class="fas fa-phone text-xl text-white"></i>
-                            </div>
-                            <div>
-                                <div class="text-sm text-gray-400">Phone</div>
-                                <div class="font-semibold">+84 123 456 789</div>
-                            </div>
-                        </a>
-
-                        <div class="flex items-center gap-4 glass p-4 rounded-xl">
-                            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-map-marker-alt text-xl text-white"></i>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-phone text-purple-600 dark:text-purple-400"></i>
                             </div>
                             <div>
-                                <div class="text-sm text-gray-400">Location</div>
-                                <div class="font-semibold">Việt Nam</div>
+                                <div class="font-semibold">Điện thoại</div>
+                                <a href="tel:+84123456789" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                    +84 123 456 789
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-pink-600 dark:text-pink-400"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Địa chỉ</div>
+                                <div class="text-gray-600 dark:text-gray-400">Việt Nam</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Social Links -->
-                    <div>
-                        <h4 class="font-bold mb-4">Kết Nối Với Tôi</h4>
-                        <div class="flex gap-4">
-                            <a href="https://github.com" target="_blank" class="w-12 h-12 glass rounded-lg flex items-center justify-center hover:bg-primary-500 hover:scale-110 transition-all group">
-                                <i class="fab fa-github text-xl group-hover:text-white"></i>
+                    <!-- Social links -->
+                    <div class="mt-8">
+                        <h4 class="font-semibold mb-4">Kết nối với tôi</h4>
+                        <div class="flex gap-3">
+                            <a href="https://github.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+                                <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://linkedin.com" target="_blank" class="w-12 h-12 glass rounded-lg flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all group">
-                                <i class="fab fa-linkedin text-xl group-hover:text-white"></i>
+                            <a href="https://linkedin.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+                                <i class="fab fa-linkedin-in"></i>
                             </a>
-                            <a href="https://twitter.com" target="_blank" class="w-12 h-12 glass rounded-lg flex items-center justify-center hover:bg-sky-500 hover:scale-110 transition-all group">
-                                <i class="fab fa-twitter text-xl group-hover:text-white"></i>
+                            <a href="https://twitter.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+                                <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="https://facebook.com" target="_blank" class="w-12 h-12 glass rounded-lg flex items-center justify-center hover:bg-blue-500 hover:scale-110 transition-all group">
-                                <i class="fab fa-facebook text-xl group-hover:text-white"></i>
+                            <a href="https://facebook.com" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+                                <i class="fab fa-facebook-f"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Contact Form -->
-                <div class="reveal">
-                    <form id="contact-form" class="glass p-8 rounded-2xl space-y-6">
+                <!-- Contact form -->
+                <div class="reveal" style="animation-delay: 0.2s">
+                    <form id="contact-form" class="glass rounded-2xl p-8 space-y-6">
                         <div>
-                            <label for="name" class="block text-sm font-semibold mb-2">Tên của bạn</label>
-                            <input type="text" id="name" required
-                                   class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all">
+                            <label for="name" class="block text-sm font-semibold mb-2">Họ và tên</label>
+                            <input type="text" id="name" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all">
                         </div>
-
                         <div>
                             <label for="email" class="block text-sm font-semibold mb-2">Email</label>
-                            <input type="email" id="email" required
-                                   class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all">
+                            <input type="email" id="email" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all">
                         </div>
-
                         <div>
                             <label for="subject" class="block text-sm font-semibold mb-2">Chủ đề</label>
-                            <input type="text" id="subject" required
-                                   class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all">
+                            <input type="text" id="subject" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all">
                         </div>
-
                         <div>
                             <label for="message" class="block text-sm font-semibold mb-2">Tin nhắn</label>
-                            <textarea id="message" rows="5" required
-                                      class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all resize-none"></textarea>
+                            <textarea id="message" rows="5" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all resize-none"></textarea>
                         </div>
-
-                        <button type="submit" class="w-full btn-primary group">
-                            <span class="flex items-center justify-center gap-2">
-                                Gửi Tin Nhắn
-                                <i class="fas fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                            </span>
+                        <button type="submit" class="w-full btn-primary">
+                            <i class="fas fa-paper-plane mr-2"></i>Gửi tin nhắn
                         </button>
                     </form>
                 </div>
@@ -480,75 +961,22 @@
     </section>
 
     <!-- Footer -->
-    <footer class="relative py-12 border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-6 md:px-12">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <!-- Brand -->
-                <div>
-                    <h3 class="text-2xl font-bold gradient-text mb-4">DVH.</h3>
-                    <p class="text-gray-400 text-sm">
-                        Frontend Developer với đam mê tạo ra những trải nghiệm web tuyệt vời.
-                    </p>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="font-bold mb-4">Quick Links</h4>
-                    <div class="flex flex-col gap-2 text-sm">
-                        <a href="#home" class="text-gray-400 hover:text-primary-400 transition-colors">Home</a>
-                        <a href="#about" class="text-gray-400 hover:text-primary-400 transition-colors">About</a>
-                        <a href="#projects" class="text-gray-400 hover:text-primary-400 transition-colors">Projects</a>
-                        <a href="#contact" class="text-gray-400 hover:text-primary-400 transition-colors">Contact</a>
-                    </div>
-                </div>
-
-                <!-- Social -->
-                <div>
-                    <h4 class="font-bold mb-4">Connect</h4>
-                    <div class="flex gap-3">
-                        <a href="#" class="w-10 h-10 glass rounded-lg flex items-center justify-center hover:bg-primary-500 transition-colors">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 glass rounded-lg flex items-center justify-center hover:bg-primary-500 transition-colors">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 glass rounded-lg flex items-center justify-center hover:bg-primary-500 transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Copyright -->
-            <div class="text-center pt-8 border-t border-white/10">
-                <p class="text-gray-400 text-sm">
+    <footer class="py-8 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-gray-600 dark:text-gray-400">
                     © 2025 Đoàn Vĩnh Hưng. Made with <span class="text-red-500">❤️</span> and <span class="gradient-text">Code</span>
                 </p>
             </div>
         </div>
-
-        <!-- Back to Top -->
-        <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-primary-500 to-accent-purple rounded-full flex items-center justify-center opacity-0 pointer-events-none transition-all hover:scale-110 shadow-lg z-50">
-            <i class="fas fa-arrow-up"></i>
-        </button>
     </footer>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-24 right-6 glass px-6 py-4 rounded-xl shadow-2xl transform translate-x-full transition-transform z-50">
-        <div class="flex items-center gap-3">
-            <i class="fas fa-check-circle text-green-500 text-xl"></i>
-            <span id="toast-message">Message sent successfully!</span>
-        </div>
-    </div>
+    <!-- Back to top button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full shadow-lg opacity-0 pointer-events-none transition-all hover:scale-110">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-    <!-- Scripts -->
-    <script src="./js/loader.js"></script>
-    <script src="./js/particles.js"></script>
-    <script src="./js/typing.js"></script>
-    <script src="./js/scroll-reveal.js"></script>
-    <script src="./js/skills.js"></script>
-    <script src="./js/projects.js"></script>
-    <script src="./js/contact.js"></script>
-    <script src="./js/main.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="./js/main-new.js"></script>
 </body>
 </html>

@@ -10,37 +10,42 @@ class PageLoader {
     }
     
     init() {
-        // Count resources to load
-        this.totalResources = document.querySelectorAll('img, link[rel="stylesheet"], script').length;
+        // Count only immediately-loading resources
+        const imgs = Array.from(document.querySelectorAll('img:not([data-src])'));
+        const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
+        const scripts = Array.from(document.querySelectorAll('script[src]'));
+        this.totalResources = imgs.length + styles.length + scripts.length;
+        if (this.totalResources === 0) this.totalResources = 1; // avoid division by zero
         
         // Track loaded resources
         this.trackResources();
         
-        // Minimum display time
+        // Minimum display time and safety timeout
         this.minimumDisplayTime();
+        this.safetyTimeout(3000);
     }
     
     trackResources() {
-        // Track images
-        document.querySelectorAll('img').forEach(img => {
+        // Track images that load immediately (ignore lazy images)
+        document.querySelectorAll('img:not([data-src])').forEach(img => {
             if (img.complete) {
                 this.updateProgress();
             } else {
-                img.addEventListener('load', () => this.updateProgress());
-                img.addEventListener('error', () => this.updateProgress());
+                img.addEventListener('load', () => this.updateProgress(), { once: true });
+                img.addEventListener('error', () => this.updateProgress(), { once: true });
             }
         });
         
         // Track stylesheets
         document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-            link.addEventListener('load', () => this.updateProgress());
+            link.addEventListener('load', () => this.updateProgress(), { once: true });
+            link.addEventListener('error', () => this.updateProgress(), { once: true });
         });
         
-        // Track scripts
-        document.querySelectorAll('script').forEach(script => {
-            if (script.src) {
-                script.addEventListener('load', () => this.updateProgress());
-            }
+        // Track external scripts only
+        document.querySelectorAll('script[src]').forEach(script => {
+            script.addEventListener('load', () => this.updateProgress(), { once: true });
+            script.addEventListener('error', () => this.updateProgress(), { once: true });
         });
     }
     
@@ -70,14 +75,19 @@ class PageLoader {
         }, 500);
     }
     
+    safetyTimeout(ms = 3000) {
+        // In case some resources never fire events (e.g., lazy images), hide after a timeout
+        setTimeout(() => this.hide(), ms);
+    }
+    
     hide() {
-        if (this.loader) {
-            this.loader.style.opacity = '0';
-            setTimeout(() => {
-                this.loader.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }, 300);
-        }
+        if (!this.loader || this.loader.style.display === 'none') return;
+        this.loader.style.opacity = '0';
+        setTimeout(() => {
+            if (!this.loader) return;
+            this.loader.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
     }
 }
 

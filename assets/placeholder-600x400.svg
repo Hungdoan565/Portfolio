@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <g fill="none" stroke="rgba(56,189,248,0.25)" stroke-width="1">
+    <circle cx="300" cy="200" r="160"/>
+    <circle cx="300" cy="200" r="120"/>
+    <circle cx="300" cy="200" r="80"/>
+  </g>
+  <text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="24" fill="#94a3b8">Image placeholder</text>
+  <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle"
+        font-family="JetBrains Mono,ui-monospace,Consolas,monospace"
+        font-size="14" fill="#38bdf8">600 × 400</text>
+</svg>

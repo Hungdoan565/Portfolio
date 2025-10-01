@@ -110,7 +110,7 @@ class ProjectsManager {
                     <img src="${project.image}" 
                          alt="${project.title}"
                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                         onerror="this.src='https://via.placeholder.com/600x400/1e293b/38bdf8?text=${encodeURIComponent(project.title)}'">
+                         onerror="this.onerror=null; this.src='./assets/placeholder-600x400.svg'">
                     
                     <!-- Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">

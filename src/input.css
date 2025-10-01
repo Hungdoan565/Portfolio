@@ -115,21 +115,20 @@
   }
 
   /* Nav Link with Underline Animation */
-  .nav-link {
-    @apply relative;
-  }
+    .nav-link {
+        @apply relative overflow-hidden;
+    }
 
-  .nav-link::after {
-    content: '';
-    @apply absolute bottom-0 left-0 w-0 h-0.5;
-    @apply bg-gradient-to-r from-primary-600 to-purple-600;
-    @apply transition-all duration-300 ease-out;
-  }
+    .nav-link::after {
+        content: '';
+        @apply absolute bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-purple 
+               transition-all duration-300 ease-out;
+    }
 
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    @apply w-full;
-  }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after {
+        @apply w-full;
+    }
 
   /* Enhanced Card Styles */
   .card {
