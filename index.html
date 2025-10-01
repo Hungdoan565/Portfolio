@@ -596,42 +596,62 @@
             }
         }
         
-        /* Skill Modal Card Styles */
+        /* Skill Modal - Bottom Sheet Style */
         .skill-modal {
             position: fixed;
-            right: 20px;
-            top: -100%;
-            width: 550px;
-            max-width: calc(100vw - 40px);
-            max-height: 85vh;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 600px;
+            max-height: 80vh;
             overflow-y: auto;
-            /* Light mode: background trắng nhẹ để icon nổi bật */
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px 36px;
+            /* Light mode */
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+            padding: 32px 28px 40px;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-bottom: none;
             color: #1f2937;
         }
         
         .dark .skill-modal {
-            /* Dark mode: background xám nhạt trung gian - không quá tối, không quá sáng */
+            /* Dark mode */
             background: rgba(51, 65, 85, 0.98);
             color: #f1f5f9;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
         }
         
         .skill-modal.active {
-            top: 20px;
+            bottom: 0;
             opacity: 1;
             visibility: visible;
+        }
+        
+        /* Handle bar at top */
+        .skill-modal::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+        
+        .dark .skill-modal::before {
+            background: rgba(255, 255, 255, 0.3);
         }
         
         .skill-modal-header {
@@ -747,13 +767,14 @@
         .skill-modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 999;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         
         .skill-modal-overlay.active {
@@ -774,6 +795,65 @@
                 flex-direction: column;
                 text-align: center;
             }
+        }
+        
+        /* Skills Grid - Static, Clean, Professional */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 16px;
+            max-width: 100%;
+        }
+        
+        @media (min-width: 640px) {
+            .skills-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .skills-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .skills-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+        
+        /* Skill Card - Better Hover */
+        .skill-card {
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            z-index: 10;
+        }
+        
+        .skill-card:hover .glass {
+            box-shadow: 0 12px 28px rgba(99, 102, 241, 0.25);
+        }
+        
+        /* Icon Glow on Hover */
+        @keyframes icon-glow {
+            0%, 100% { 
+                filter: drop-shadow(0 0 0 transparent);
+                transform: scale(1);
+            }
+            50% { 
+                filter: drop-shadow(0 0 12px currentColor);
+                transform: scale(1.1);
+            }
+        }
+        
+        .skill-card:hover i,
+        .skill-card:hover svg {
+            animation: icon-glow 2s ease-in-out infinite;
         }
     </style>
 </head>
@@ -1221,7 +1301,7 @@
                         </div>
                         <h3 class="text-2xl font-bold">Frontend Development</h3>
                     </div>
-                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                    <div class="skills-grid">
                         <!-- HTML5 -->
                         <div class="skill-card group relative">
                             <div class="glass rounded-xl p-4 flex flex-col items-center justify-center aspect-square transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-orange-500/20">
@@ -1340,7 +1420,7 @@
                         </div>
                         <h3 class="text-2xl font-bold">Backend Development</h3>
                     </div>
-                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                    <div class="skills-grid">
                         <!-- Node.js -->
                         <div class="skill-card group relative">
                             <div class="glass rounded-xl p-4 flex flex-col items-center justify-center aspect-square transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-green-500/20">
@@ -1437,7 +1517,7 @@
                         </div>
                         <h3 class="text-2xl font-bold">Công cụ & Khác</h3>
                     </div>
-                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                    <div class="skills-grid">
                         <!-- Git -->
                         <div class="skill-card group relative">
                             <div class="glass rounded-xl p-4 flex flex-col items-center justify-center aspect-square transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-orange-500/20">

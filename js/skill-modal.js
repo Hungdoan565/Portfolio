@@ -7,6 +7,7 @@ class SkillModalManager {
         this.modalElement = null;
         this.hoverTimeout = null;
         this.closeTimeout = null;
+        this.isMouseInCard = false;
         this.isMouseInModal = false;
         
         this.init();
@@ -70,41 +71,39 @@ class SkillModalManager {
             
             if (!skillData) return;
             
-            let isHovering = false;
-            
-            card.addEventListener('mouseenter', (e) => {
-                isHovering = true;
-                // Delay để tránh hiện modal khi di chuột nhanh
-                clearTimeout(this.hoverTimeout);
+            // HOVER to open modal - MODAL SẼ "GHIM" LẠI khi mở
+            card.addEventListener('mouseenter', () => {
+                this.isMouseInCard = true;
                 clearTimeout(this.closeTimeout);
+                clearTimeout(this.hoverTimeout);
+                
+                // Open modal after 600ms hover - đủ thời gian xác định ý định
                 this.hoverTimeout = setTimeout(() => {
-                    if (isHovering) {
+                    if (this.isMouseInCard) {
                         this.showModal(card, skillData);
                     }
-                }, 300);
+                }, 600);
             });
             
-            card.addEventListener('mouseleave', (e) => {
-                isHovering = false;
+            card.addEventListener('mouseleave', () => {
+                this.isMouseInCard = false;
                 clearTimeout(this.hoverTimeout);
-                // KHÔNG đóng modal khi rời card - chỉ đóng khi rời modal
+                // KHÔNG TỰ ĐỘNG ĐÓNG - modal sẽ ở lại cho đến khi:
+                // 1. User click overlay
+                // 2. Hover vào card khác
             });
         });
         
-        // Track mouse position in modal
-        this.modalElement.addEventListener('mouseenter', () => {
-            this.isMouseInModal = true;
-            clearTimeout(this.closeTimeout);
-        });
-        
-        this.modalElement.addEventListener('mouseleave', () => {
-            this.isMouseInModal = false;
-            // Đóng modal ngay khi rời modal
-            this.closeModal();
-        });
+        // Modal event listeners - không cần nữa vì modal "ghim" lại
+        // User chỉ đóng bằng cách click overlay hoặc hover card khác
     }
     
     showModal(card, skillData) {
+        // Nếu đang có modal khác đang mở, đóng nó trước
+        if (this.currentModal && this.currentModal !== card) {
+            this.closeModal();
+        }
+        
         // Get icon from card - tìm trong div chính không phải tooltip
         const cardMain = card.querySelector('.glass');
         const iconElement = cardMain ? (cardMain.querySelector('i') || cardMain.querySelector('svg')) : null;
@@ -141,7 +140,7 @@ class SkillModalManager {
         
         this.modalElement.querySelector('#modal-projects').textContent = skillData.projects;
         
-        // Show modal
+        // Show modal - MODAL SẼ Ở LẠI cho đến khi user click overlay
         this.modalOverlay.classList.add('active');
         this.modalElement.classList.add('active');
         this.currentModal = card;
@@ -153,6 +152,7 @@ class SkillModalManager {
         this.modalOverlay.classList.remove('active');
         this.modalElement.classList.remove('active');
         this.currentModal = null;
+        this.isMouseInCard = false;
         this.isMouseInModal = false;
     }
     
