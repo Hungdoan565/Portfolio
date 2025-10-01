@@ -1,6 +1,27 @@
 // Main JavaScript file for Portfolio
 (function() {
     'use strict';
+    
+    // ====== Utility Functions ======
+    // Throttle function for performance optimization
+    const throttle = (func, delay = 100) => {
+        let lastCall = 0;
+        return function(...args) {
+            const now = new Date().getTime();
+            if (now - lastCall < delay) return;
+            lastCall = now;
+            return func.apply(this, args);
+        };
+    };
+    
+    // Debounce function for input/resize events
+    const debounce = (func, delay = 250) => {
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    };
 
     // ====== Page Loader ======
     class PageLoader {
@@ -186,43 +207,53 @@
     const initMobileMenu = () => {
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        const mobileBackdrop = document.getElementById('mobile-menu-backdrop');
         const closeMenu = document.getElementById('close-menu');
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
+        const openMenu = () => {
+            mobileMenu.classList.add('active');
+            mobileBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            mobileBackdrop.classList.add('opacity-100');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeMenuFn = () => {
+            mobileMenu.classList.remove('active');
+            mobileBackdrop.classList.remove('opacity-100');
+            mobileBackdrop.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'visible';
+        };
+
         if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('active');
-            });
+            mobileMenuBtn.addEventListener('click', openMenu);
         }
 
         if (closeMenu) {
-            closeMenu.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-            });
+            closeMenu.addEventListener('click', closeMenuFn);
+        }
+        
+        if (mobileBackdrop) {
+            mobileBackdrop.addEventListener('click', closeMenuFn);
         }
 
         mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-            });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                mobileMenu.classList.remove('active');
-            }
+            link.addEventListener('click', closeMenuFn);
         });
     };
 
     // ====== Navbar Scroll Effect ======
     const initNavbar = () => {
         const navbar = document.getElementById('navbar');
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
         let lastScrollTop = 0;
 
-        window.addEventListener('scroll', () => {
+        // Combined scroll handler with throttle
+        const handleScroll = throttle(() => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
+            // Navbar glass effect
             if (scrollTop > 100) {
                 navbar.classList.add('glass', 'backdrop-blur-lg', 'shadow-lg');
             } else {
@@ -236,20 +267,12 @@
                 navbar.style.transform = 'translateY(0)';
             }
             lastScrollTop = scrollTop;
-        });
-
-        // Active nav link on scroll
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
             
+            // Active nav link based on section
+            let current = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                
-                if (scrollY >= (sectionTop - 200)) {
+                if (scrollTop >= (sectionTop - 200)) {
                     current = section.getAttribute('id');
                 }
             });
@@ -260,7 +283,9 @@
                     link.classList.add('active');
                 }
             });
-        });
+        }, 50); // 50ms throttle for smooth but performant scrolling
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
     };
 
     // ====== Typing Animation ======
@@ -308,14 +333,42 @@
         type();
     };
 
-    // ====== Scroll Reveal Animation ======
-    const initScrollReveal = () => {
+    // ====== Lazy Loading Images ======
+    const initLazyLoading = () => {
+        const images = document.querySelectorAll('img[data-src]');
+        
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.add('fade-in');
+                    img.removeAttribute('data-src');
+                    observer.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px' // Load 50px before entering viewport
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    };
+    
+    // ====== Unified Scroll Manager ======
+    // Combines all scroll-based animations for better performance
+    const initScrollManager = () => {
         const reveals = document.querySelectorAll('.reveal');
         const staggers = document.querySelectorAll('.stagger');
+        const skillBars = document.querySelectorAll('.skill-progress-bar');
+        const backToTopBtn = document.getElementById('back-to-top');
+        const timelineItems = document.querySelectorAll('.timeline-item');
         
-        const revealOnScroll = () => {
+        const handleScrollAnimations = throttle(() => {
+            const windowHeight = window.innerHeight;
+            const scrollY = window.scrollY;
+            
+            // Reveal animations
             reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
                 const elementTop = element.getBoundingClientRect().top;
                 const elementVisible = 150;
                 
@@ -324,32 +377,21 @@
                 }
             });
 
-            // Stagger animation for groups
+            // Stagger animations
             staggers.forEach((element, index) => {
-                const windowHeight = window.innerHeight;
                 const elementTop = element.getBoundingClientRect().top;
                 const elementVisible = 150;
                 
-                if (elementTop < windowHeight - elementVisible) {
+                if (elementTop < windowHeight - elementVisible && !element.classList.contains('active')) {
                     setTimeout(() => {
                         element.classList.add('active');
                     }, index * 100);
                 }
             });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll(); // Check on load
-    };
-
-    // ====== Skills Progress Animation ======
-    const initSkillsAnimation = () => {
-        const skillBars = document.querySelectorAll('.skill-progress-bar');
-        
-        const animateSkills = () => {
+            
+            // Skills progress bars
             skillBars.forEach(bar => {
                 const barTop = bar.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
                 
                 if (barTop < windowHeight - 100 && !bar.classList.contains('animated')) {
                     const width = bar.getAttribute('data-width');
@@ -357,10 +399,29 @@
                     bar.classList.add('animated');
                 }
             });
-        };
+            
+            // Timeline animations
+            timelineItems.forEach(item => {
+                const itemTop = item.getBoundingClientRect().top;
+                if (itemTop < windowHeight - 100) {
+                    item.classList.add('timeline-visible');
+                }
+            });
+            
+            // Back to top button
+            if (backToTopBtn) {
+                if (scrollY > 800) {
+                    backToTopBtn.style.opacity = '1';
+                    backToTopBtn.style.pointerEvents = 'auto';
+                } else {
+                    backToTopBtn.style.opacity = '0';
+                    backToTopBtn.style.pointerEvents = 'none';
+                }
+            }
+        }, 100); // 100ms throttle
 
-        window.addEventListener('scroll', animateSkills);
-        animateSkills();
+        window.addEventListener('scroll', handleScrollAnimations, { passive: true });
+        handleScrollAnimations(); // Check on load
     };
 
     // ====== Number Counter Animation ======
@@ -567,8 +628,13 @@
                 projectsGrid.appendChild(projectCard);
             });
             
-            // Reinitialize scroll reveal for new elements
-            initScrollReveal();
+            // Trigger reveal animation for new project cards
+            const newCards = projectsGrid.querySelectorAll('.reveal');
+            newCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('active');
+                }, index * 100);
+            });
         };
 
         // Filter button click
@@ -586,67 +652,179 @@
                 renderProjects(filter);
             });
         });
-
-        // Initial render
+        
+        // Initialize projects on load
         renderProjects();
     };
 
-    // ====== Contact Form ======
+    // ====== Contact Form with EmailJS ======
     const initContactForm = () => {
-        // Initialize EmailJS
+        // Initialize EmailJS (replace with your public key)
+        console.log('🔧 Initializing EmailJS...');
+        console.log('📧 EmailJS loaded?', typeof emailjs !== 'undefined');
+        
         if (typeof emailjs !== 'undefined') {
-            emailjs.init("wE_iY_vjEb7NPGCq7"); // Your EmailJS Public Key
+            emailjs.init("wE_iY_vjEb7NPGCq7"); // Public Key: wE_iY_vjEb7NPGCq7
+            console.log('✅ EmailJS initialized with key: wE_iY_vjEb7NPGCq7');
+        } else {
+            console.error('❌ EmailJS not loaded!');
         }
         
         const contactForm = document.getElementById('contact-form');
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        console.log('📝 Contact form element:', contactForm);
         
-        if (contactForm) {
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                // Get form data
-                const formData = {
-                    from_name: document.getElementById('name').value,
-                    from_email: document.getElementById('email').value,
-                    subject: document.getElementById('subject').value,
-                    message: document.getElementById('message').value
-                };
-                
-                // Show loading state
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi...';
-                submitBtn.disabled = true;
-                
-                try {
-                    if (typeof emailjs !== 'undefined') {
-                        // Send email using EmailJS
-                        const response = await emailjs.send(
-                            "service_x0siako",     // Your EmailJS Service ID
-                            "template_kxprilp",    // Your EmailJS Template ID
-                            formData
-                        );
-                        
-                        // Show success notification
-                        showNotification('Tin nhắn đã được gửi thành công!', 'success');
-                        
-                        // Reset form
-                        contactForm.reset();
-                    } else {
-                        // Fallback - show demo message
-                        showNotification('Demo: Tin nhắn sẽ được gửi khi setup EmailJS!', 'info');
-                        contactForm.reset();
-                    }
-                } catch (error) {
-                    console.error('Email send failed:', error);
-                    showNotification('Có lỗi xảy ra. Vui lòng thử lại sau!', 'error');
-                } finally {
-                    // Reset button state
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
+        if (!contactForm) {
+            console.error('❌ Contact form not found!');
+            return;
+        }
+        
+        console.log('✅ Contact form found, attaching listeners...');
+        
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const inputs = contactForm.querySelectorAll('input, textarea');
+        
+        // Real-time validation
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                validateField(input);
+            });
+            
+            input.addEventListener('input', () => {
+                if (input.classList.contains('error')) {
+                    validateField(input);
                 }
             });
+        });
+        
+        console.log('✅ Submit listener attached to form');
+        
+        contactForm.addEventListener('submit', async (e) => {
+            console.log('🚨 FORM SUBMITTED! Event:', e);
+            e.preventDefault();
+            console.log('✅ preventDefault called');
+            
+            // Validate all fields
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                showNotification('Vui lòng điền đầy đủ thông tin hợp lệ!', 'error');
+                return;
+            }
+            
+            // Get form data
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            const formData = {
+                from_name: name,
+                from_email: email,
+                subject: subject,
+                message: message,
+                timestamp: new Date().toLocaleString('vi-VN', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }),
+                from_name_initial: name.charAt(0).toUpperCase(),
+                reply_to: email // EmailJS sẽ dùng để reply
+            };
+            
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi...';
+            submitBtn.disabled = true;
+            
+            try {
+                console.log('📤 Sending email...');
+                console.log('📋 Form data:', formData);
+                
+                if (typeof emailjs !== 'undefined') {
+                    // EmailJS Configuration - VERIFIED ✅
+                    const SERVICE_ID = "service_x0siako";      // Service ID
+                    const TEMPLATE_ID = "template_kxprilp";    // Template ID
+                    
+                    console.log('📧 Using EmailJS Config:');
+                    console.log('   Service ID:', SERVICE_ID);
+                    console.log('   Template ID:', TEMPLATE_ID);
+                    console.log('📋 Form Data:', formData);
+                    
+                    // Send email using EmailJS
+                    const response = await emailjs.send(
+                        SERVICE_ID,
+                        TEMPLATE_ID,
+                        formData
+                    );
+                    
+                    console.log('✅ Email sent successfully!', response);
+                    
+                    // Show success notification
+                    showNotification('✨ Tin nhắn đã được gửi thành công! Tôi sẽ phản hồi sớm.', 'success');
+                    
+                    // Reset form
+                    contactForm.reset();
+                    inputs.forEach(input => input.classList.remove('error', 'success'));
+                } else {
+                    console.warn('⚠️ EmailJS not available');
+                    // Fallback - show demo message
+                    showNotification('📧 Demo: Tin nhắn sẽ được gửi khi setup EmailJS!', 'info');
+                    contactForm.reset();
+                }
+            } catch (error) {
+                console.error('❌ Email send failed:', error);
+                console.error('Error details:', {
+                    status: error.status,
+                    text: error.text,
+                    message: error.message
+                });
+                const errorMsg = error.text || error.message || 'Có lỗi xảy ra. Vui lòng thử lại sau!';
+                showNotification(`❌ ${errorMsg}`, 'error');
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    };
+    
+    // Field validation helper
+    const validateField = (field) => {
+        const value = field.value.trim();
+        let isValid = true;
+        let errorMsg = '';
+        
+        if (field.hasAttribute('required') && !value) {
+            isValid = false;
+            errorMsg = 'Trường này là bắt buộc';
+        } else if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                isValid = false;
+                errorMsg = 'Email không hợp lệ';
+            }
         }
+        
+        // Update UI
+        if (!isValid) {
+            field.classList.add('error');
+            field.classList.remove('success');
+        } else if (value) {
+            field.classList.remove('error');
+            field.classList.add('success');
+        } else {
+            field.classList.remove('error', 'success');
+        }
+        
+        return isValid;
     };
     
     // ====== Notification System ======
@@ -791,16 +969,7 @@
         const backToTopBtn = document.getElementById('back-to-top');
         
         if (backToTopBtn) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 500) {
-                    backToTopBtn.style.opacity = '1';
-                    backToTopBtn.style.pointerEvents = 'auto';
-                } else {
-                    backToTopBtn.style.opacity = '0';
-                    backToTopBtn.style.pointerEvents = 'none';
-                }
-            });
-
+            // Scroll handled by unified scroll manager
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
@@ -860,15 +1029,14 @@
         initMobileMenu();
         initNavbar();
         initTypingAnimation();
-        initScrollReveal();
-        initSkillsAnimation();
+        initLazyLoading(); // Lazy load images for performance
+        initScrollManager(); // Unified scroll handler
         initNumberCounter();
         initTimelineAnimation();
         initProjects();
         initContactForm();
         initBackToTop();
         initSmoothScroll();
-        initParallax();
     };
 
     // Run when DOM is ready

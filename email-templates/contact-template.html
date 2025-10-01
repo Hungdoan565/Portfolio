@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ mới từ Portfolio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            color: #dc2626;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .intro-text {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+        .user-info {
+            background-color: #f9fafb;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .info-row {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 140px;
+            font-size: 14px;
+        }
+        .info-value {
+            color: #1f2937;
+            font-size: 14px;
+            flex: 1;
+            word-break: break-word;
+        }
+        .message-section {
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .message-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .message-content {
+            color: #1f2937;
+            line-height: 1.6;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 20px 30px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .timestamp {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📬 Liên hệ mới từ Portfolio</h1>
+            <p>Bạn vừa nhận được một tin nhắn từ website của bạn</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">Xin chào Quản trị viên,</div>
+            
+            <p class="intro-text">
+                Bạn vừa nhận được một liên hệ mới từ website <strong>Món Ngon Việt Nam</strong>. Thông tin chi tiết như sau:
+            </p>
+
+            <!-- User Info Card -->
+            <div class="user-info">
+                <div class="user-avatar">
+                    {{from_name_initial}}
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">👤 Họ và tên:</span>
+                    <span class="info-value">{{from_name}}</span>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">📧 Email:</span>
+                    <span class="info-value"><a href="mailto:{{from_email}}" style="color: #667eea; text-decoration: none;">{{from_email}}</a></span>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">📋 Tiêu đề:</span>
+                    <span class="info-value">{{subject}}</span>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">⏰ Thời gian gửi:</span>
+                    <span class="info-value">{{timestamp}}</span>
+                </div>
+            </div>
+
+            <!-- Message Section -->
+            <div class="message-section">
+                <div class="message-label">💬 Nội dung liên hệ:</div>
+                <div class="message-content">{{message}}</div>
+            </div>
+
+            <!-- CTA Button -->
+            <center>
+                <a href="mailto:{{from_email}}" class="cta-button">
+                    📨 Trả lời ngay
+                </a>
+            </center>
+
+            <div class="timestamp">
+                Email này được gửi tự động từ hệ thống Portfolio Website
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>© 2025 Đoàn Vĩnh Hưng Portfolio</strong></p>
+            <p>Made with ❤️ and Code</p>
+            <p style="margin-top: 10px; color: #9ca3af;">
+                Email này được gửi tự động. Vui lòng không trả lời trực tiếp email này.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
