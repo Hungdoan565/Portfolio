@@ -478,38 +478,245 @@
             51%, 100% { opacity: 0; }
         }
         
-        /* Timeline animations */
+        /* Timeline animations - ENHANCED */
+        
+        /* Timeline line drawing animation */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 0;
+            background: linear-gradient(to bottom, #6366f1, #a855f7, #ec4899);
+            transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            top: 0;
+        }
+        
+        .timeline-line.drawing {
+            height: 100%;
+        }
+        
+        /* Timeline items với stagger animation */
         .timeline-item {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            transition: all 0.3s ease;
         }
         
         .timeline-item.timeline-visible {
-            opacity: 1;
-            transform: translateY(0);
+            animation: timelineItemFadeIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
         }
         
+        /* Stagger delay cho từng item */
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.7s; }
+        
+        @keyframes timelineItemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Timeline dots với scale + glow animation */
         .timeline-dot {
-            animation: pulse 2s ease-in-out infinite;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+        
+        .timeline-item.timeline-visible .timeline-dot {
+            animation: dotPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+        
+        @keyframes dotPulse {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.5);
+            }
+        }
+        
+        @keyframes dotPop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* Timeline content slide animations */
         .timeline-content-left {
-            transform: translateX(-30px);
+            transform: translateX(-60px);
             opacity: 0;
             transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         
         .timeline-content-right {
-            transform: translateX(30px);
+            transform: translateX(60px);
             opacity: 0;
             transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         
-        .timeline-visible .timeline-content-left,
+        .timeline-visible .timeline-content-left {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
         .timeline-visible .timeline-content-right {
             transform: translateX(0);
             opacity: 1;
+        }
+        
+        /* Timeline card hover effects - 3D transform */
+        .timeline-card {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .timeline-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2), 
+                        0 0 0 1px rgba(99, 102, 241, 0.1);
+        }
+        
+        /* Timeline card glow effect on hover */
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.1), 
+                rgba(168, 85, 247, 0.1),
+                rgba(236, 72, 153, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .timeline-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Timeline tags animation */
+        .timeline-tag {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-card:hover .timeline-tag {
+            transform: translateY(-2px);
+        }
+        
+        .timeline-tag:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Timeline dot icon - REDESIGNED */
+        .timeline-dot-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+        }
+        
+        .timeline-dot-icon > div {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Ripple layers */
+        .timeline-dot-icon > div::before,
+        .timeline-dot-icon > div::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0;
+        }
+        
+        /* Hide small dot when hovering */
+        .timeline-item:hover .timeline-dot {
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        /* Show large icon when hovering */
+        .timeline-item:hover .timeline-dot-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        /* Ripple animation when hovering */
+        .timeline-item:hover .timeline-dot-icon > div::before {
+            animation: ripple 2s ease-out infinite;
+        }
+        
+        .timeline-item:hover .timeline-dot-icon > div::after {
+            animation: ripple 2s ease-out infinite 1s;
+        }
+        
+        /* Icon scale pulse */
+        .timeline-item:hover .timeline-dot-icon > div {
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4),
+                            0 0 0 8px rgba(255, 255, 255, 0.1);
+            }
         }
         
         /* Mobile timeline styles */
@@ -1149,16 +1356,16 @@
 
             <div class="max-w-5xl mx-auto">
                 <!-- Timeline -->
-                <div class="relative">
-                    <!-- Timeline line -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"></div>
+                <div class="relative" id="timeline-container">
+                    <!-- Timeline line animated -->
+                    <div class="timeline-line" id="timeline-line"></div>
                     
                     <!-- Experience items -->
                     <div class="space-y-12">
                         <!-- Item 1 -->
                         <div class="relative flex items-center justify-between timeline-item">
-                            <div class="w-5/12 text-right pr-8 timeline-content-left reveal">
-                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                            <div class="w-5/12 text-right pr-8 timeline-content-left">
+                                <div class="glass rounded-xl p-6 timeline-card relative overflow-hidden">
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">2023 - Hiện tại</span>
                                     <h3 class="text-xl font-bold mt-2 mb-2">Senior Frontend Developer</h3>
                                     <h4 class="text-gray-600 dark:text-gray-400 mb-3">Tech Company ABC</h4>
@@ -1167,15 +1374,21 @@
                                         Lead team 5 người, tối ưu performance tăng 40%.
                                     </p>
                                     <div class="mt-3 flex flex-wrap gap-2 justify-end">
-                                        <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">React</span>
-                                        <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">TypeScript</span>
-                                        <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">Node.js</span>
+                                        <span class="timeline-tag px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">React</span>
+                                        <span class="timeline-tag px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">TypeScript</span>
+                                        <span class="timeline-tag px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">Node.js</span>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Center dot -->
-                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-indigo-500 rounded-full z-10 timeline-dot"></div>
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-indigo-500 rounded-full z-10 timeline-dot">
+                                <div class="timeline-dot-icon">
+                                    <div class="bg-gradient-to-br from-indigo-500 to-purple-500">
+                                        <i class="fas fa-briefcase text-white text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
                             
                             <div class="w-5/12"></div>
                         </div>
@@ -1185,10 +1398,16 @@
                             <div class="w-5/12"></div>
                             
                             <!-- Center dot -->
-                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-purple-500 rounded-full z-10 timeline-dot"></div>
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-purple-500 rounded-full z-10 timeline-dot">
+                                <div class="timeline-dot-icon">
+                                    <div class="bg-gradient-to-br from-purple-500 to-pink-500">
+                                        <i class="fas fa-code text-white text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <div class="w-5/12 pl-8 timeline-content-right reveal">
-                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                            <div class="w-5/12 pl-8 timeline-content-right">
+                                <div class="glass rounded-xl p-6 timeline-card relative overflow-hidden">
                                     <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">2021 - 2023</span>
                                     <h3 class="text-xl font-bold mt-2 mb-2">Frontend Developer</h3>
                                     <h4 class="text-gray-600 dark:text-gray-400 mb-3">Digital Agency XYZ</h4>
@@ -1197,9 +1416,9 @@
                                         Hoàn thành 20+ dự án thành công.
                                     </p>
                                     <div class="mt-3 flex flex-wrap gap-2">
-                                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">Vue.js</span>
-                                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">JavaScript</span>
-                                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">Tailwind</span>
+                                        <span class="timeline-tag px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">Vue.js</span>
+                                        <span class="timeline-tag px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">JavaScript</span>
+                                        <span class="timeline-tag px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">Tailwind</span>
                                     </div>
                                 </div>
                             </div>
@@ -1207,8 +1426,8 @@
 
                         <!-- Item 3 - Education -->
                         <div class="relative flex items-center justify-between timeline-item">
-                            <div class="w-5/12 text-right pr-8 timeline-content-left reveal">
-                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                            <div class="w-5/12 text-right pr-8 timeline-content-left">
+                                <div class="glass rounded-xl p-6 timeline-card relative overflow-hidden">
                                     <span class="text-sm font-semibold text-pink-600 dark:text-pink-400">2020 - 2021</span>
                                     <h3 class="text-xl font-bold mt-2 mb-2">Junior Web Developer</h3>
                                     <h4 class="text-gray-600 dark:text-gray-400 mb-3">Freelance</h4>
@@ -1217,15 +1436,21 @@
                                         Học hỏi và phát triển kỹ năng qua thực tế.
                                     </p>
                                     <div class="mt-3 flex flex-wrap gap-2 justify-end">
-                                        <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">HTML/CSS</span>
-                                        <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">jQuery</span>
-                                        <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">PHP</span>
+                                        <span class="timeline-tag px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">HTML/CSS</span>
+                                        <span class="timeline-tag px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">jQuery</span>
+                                        <span class="timeline-tag px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">PHP</span>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Center dot -->
-                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-pink-500 rounded-full z-10 timeline-dot"></div>
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-pink-500 rounded-full z-10 timeline-dot">
+                                <div class="timeline-dot-icon">
+                                    <div class="bg-gradient-to-br from-pink-500 to-red-500">
+                                        <i class="fas fa-laptop-code text-white text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
                             
                             <div class="w-5/12"></div>
                         </div>
@@ -1234,13 +1459,17 @@
                         <div class="relative flex items-center justify-between timeline-item">
                             <div class="w-5/12"></div>
                             
-                            <!-- Center dot with icon -->
-                            <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full z-10 timeline-dot flex items-center justify-center">
-                                <i class="fas fa-graduation-cap text-white text-sm"></i>
+                            <!-- Center dot -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-cyan-500 rounded-full z-10 timeline-dot">
+                                <div class="timeline-dot-icon">
+                                    <div class="bg-gradient-to-br from-cyan-500 to-blue-500">
+                                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="w-5/12 pl-8 timeline-content-right reveal">
-                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                            <div class="w-5/12 pl-8 timeline-content-right">
+                                <div class="glass rounded-xl p-6 timeline-card relative overflow-hidden">
                                     <span class="text-sm font-semibold text-cyan-600 dark:text-cyan-400">2017 - 2021</span>
                                     <h3 class="text-xl font-bold mt-2 mb-2">Cử nhân Công nghệ Thông tin</h3>
                                     <h4 class="text-gray-600 dark:text-gray-400 mb-3">Đại học ABC</h4>
@@ -1249,8 +1478,8 @@
                                         Đạt giải Nhì cuộc thi Hackathon 2020.
                                     </p>
                                     <div class="mt-3 flex flex-wrap gap-2">
-                                        <span class="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded text-xs">Computer Science</span>
-                                        <span class="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded text-xs">Software Engineering</span>
+                                        <span class="timeline-tag px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded text-xs">Computer Science</span>
+                                        <span class="timeline-tag px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded text-xs">Software Engineering</span>
                                     </div>
                                 </div>
                             </div>
@@ -1866,5 +2095,6 @@
     <!-- Custom JavaScript -->
     <script src="./js/main-new.js"></script>
     <script src="./js/skill-modal.js"></script>
+    <script src="./js/timeline-animations.js"></script>
 </body>
 </html>
