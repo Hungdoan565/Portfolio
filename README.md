@@ -4,12 +4,15 @@ Modern, responsive portfolio website built with vanilla JavaScript, TailwindCSS,
 
 ## ✨ Features
 
-- **Responsive Design**: Mobile-first approach with smooth transitions
-- **Dark/Light Theme**: System preference detection with manual toggle
-- **Smooth Animations**: GPU-accelerated animations using CSS transforms
-- **Accessibility**: WCAG AA compliant with keyboard navigation support
-- **Performance**: Optimized loading with lazy images and minimal JavaScript
-- **Modern UI**: Glassmorphism effects with proper contrast ratios
+- ✅ **Responsive Design**: Mobile-first approach with smooth transitions
+- ✅ **Dark/Light Theme**: System preference detection with manual toggle
+- ✅ **Timeline Animation**: Work experience & education with animated timeline
+- ✅ **Number Counter**: Animated statistics in About section
+- ✅ **Project Modal**: Detailed project view with lightbox effect
+- ✅ **Contact Form**: EmailJS integration with notification system
+- ✅ **Smooth Animations**: GPU-accelerated animations using CSS transforms
+- ✅ **Modern UI**: Glassmorphism effects with gradient backgrounds
+- ✅ **Performance**: Optimized loading with lazy images and minimal JavaScript
 
 ## 🛠️ Tech Stack
 
@@ -23,19 +26,22 @@ Modern, responsive portfolio website built with vanilla JavaScript, TailwindCSS,
 
 ```
 Portfolio/
-├── assets/           # Images, favicon, CV
-├── dist/            # Built CSS output
-├── js/              # JavaScript modules
-│   ├── main.js      # Main application
-│   ├── loader.js    # Page loader
-│   ├── typing.js    # Typing animation
-│   ├── particles.js # Particle effects
+├── assets/              # Images, favicon
+├── dist/               # Built CSS output
+├── js/                 # JavaScript modules
+│   ├── main-new.js     # Main application (all-in-one)
+│   ├── main.js         # Legacy code
+│   ├── loader.js       # Page loader
+│   ├── typing.js       # Typing animation
 │   └── ...
 ├── src/
-│   └── input.css    # Source CSS with Tailwind
-├── index.html       # Main HTML file
-├── package.json     # Dependencies
-└── tailwind.config.js # Tailwind configuration
+│   └── input.css       # Source CSS with Tailwind
+├── index.html          # Main HTML file
+├── index-backup.html   # Backup version
+├── package.json        # Dependencies
+├── tailwind.config.js  # Tailwind configuration
+├── SETUP.md            # Setup instructions
+└── README.md           # This file
 ```
 
 ## 🚀 Quick Start
@@ -46,23 +52,22 @@ Portfolio/
    cd portfolio
    ```
 
-2. **Install dependencies**
+2. **Install dependencies** (Optional - cho Tailwind build)
    ```bash
    npm install
    ```
 
-3. **Build CSS**
-   ```bash
-   npm run build
-   ```
-
-4. **Open index.html**
+3. **Open index.html**
    ```bash
    # Open in your browser
    start index.html  # Windows
    open index.html   # macOS
    xdg-open index.html # Linux
    ```
+
+4. **Setup EmailJS** (Xem file [SETUP.md](SETUP.md))
+   - Đăng ký EmailJS account
+   - Thêm Service ID, Template ID, Public Key vào `js/main-new.js`
 
 ## 📦 NPM Scripts
 
@@ -91,9 +96,12 @@ theme: {
 
 ### Content
 - Update personal information in `index.html`
-- Replace images in `assets/` folder
-- Modify project data in `js/projects.js`
-- Update skills in `js/skills.js`
+- Replace images in `assets/` folder  
+- Modify project data in `js/main-new.js` (line 304+)
+- Update timeline/experience in `index.html` (line 670-815)
+- Update skills percentages in `index.html` (Skills section)
+
+**Chi tiết xem [SETUP.md](SETUP.md)**
 
 ## 📱 Browser Support
 
@@ -132,10 +140,10 @@ MIT License - feel free to use this project for your own portfolio!
 
 ## 📞 Contact
 
-- **Website**: [yourwebsite.com](https://yourwebsite.com)
-- **Email**: doanvinhhung@example.com
-- **LinkedIn**: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
+- **Email**: hungmobile457@gmail.com
+- **Phone**: 0764 950 871
 - **GitHub**: [github.com/yourusername](https://github.com/yourusername)
+- **LinkedIn**: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
 
 ---
 

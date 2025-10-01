@@ -95,6 +95,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
     <!-- Custom Styles -->
     <style>
         /* Base Styles */
@@ -265,7 +268,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: opacity 0.5s ease;
         }
 
@@ -276,33 +279,78 @@
         .loader-logo {
             font-size: 4rem;
             font-weight: 900;
-            animation: pulse 1.5s ease infinite;
+            background: linear-gradient(120deg, #fff, #f0f0f0, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 2s linear infinite, pulse 1.5s ease infinite;
         }
 
         .loader-progress {
-            width: 200px;
-            height: 4px;
-            background: var(--bg-secondary);
-            border-radius: 2px;
+            width: 280px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
             overflow: hidden;
-            margin: 20px auto;
+            margin: 24px auto;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .loader-progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-            animation: progress 2s ease-out;
+            background: linear-gradient(90deg, #fff, #f0f0f0, #fff);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            width: 0%;
+            position: relative;
+            animation: shimmer 1.5s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: width 0.3s ease-out;
         }
 
-        @keyframes progress {
-            0% { width: 0%; }
-            100% { width: 100%; }
+        .loader-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: slide 1s ease-in-out infinite;
+        }
+
+        .loader-percentage {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-top: 16px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .loader-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(0.95); }
+            50% { opacity: 0.8; transform: scale(0.98); }
         }
 
         /* Reveal animation */
@@ -395,17 +443,58 @@
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
+        
+        /* Timeline animations */
+        .timeline-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .timeline-item.timeline-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-dot {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .timeline-content-left {
+            transform: translateX(-30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .timeline-content-right {
+            transform: translateX(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .timeline-visible .timeline-content-left,
+        .timeline-visible .timeline-content-right {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        @media (max-width: 1024px) {
+            .timeline-item {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-white dark:bg-slate-900 text-gray-900 dark:text-gray-100">
     <!-- Page Loader -->
-    <div id="loader" class="loader">
+    <div id="page-loader" class="loader">
         <div class="loader-content">
-            <div class="loader-logo gradient-text">DVH.</div>
+            <div class="loader-logo">DVH.</div>
             <div class="loader-progress">
-                <div class="loader-progress-bar"></div>
+                <div id="loader-progress" class="loader-progress-bar"></div>
             </div>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Đang tải portfolio...</p>
+            <div id="loader-percentage" class="loader-percentage">0%</div>
+            <p class="loader-text">Đang tải portfolio...</p>
         </div>
     </div>
 
@@ -423,6 +512,7 @@
                 <div class="hidden lg:flex items-center gap-8">
                     <a href="#home" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Trang chủ</a>
                     <a href="#about" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Giới thiệu</a>
+                    <a href="#experience" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Kinh nghiệm</a>
                     <a href="#skills" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Kỹ năng</a>
                     <a href="#projects" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Dự án</a>
                     <a href="#contact" class="nav-link text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Liên hệ</a>
@@ -452,6 +542,7 @@
                 <nav class="flex flex-col gap-4">
                     <a href="#home" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Trang chủ</a>
                     <a href="#about" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Giới thiệu</a>
+                    <a href="#experience" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Kinh nghiệm</a>
                     <a href="#skills" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Kỹ năng</a>
                     <a href="#projects" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Dự án</a>
                     <a href="#contact" class="mobile-nav-link text-lg font-medium py-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Liên hệ</a>
@@ -585,15 +676,15 @@
                         <!-- Stats cards -->
                         <div class="absolute -bottom-6 left-6 right-6 grid grid-cols-3 gap-3">
                             <div class="glass rounded-lg p-3 text-center">
-                                <div class="text-2xl font-bold gradient-text">2+</div>
+                                <div class="text-2xl font-bold gradient-text" data-counter="2" data-suffix="+">0+</div>
                                 <div class="text-xs text-gray-600 dark:text-gray-400">Năm KN</div>
                             </div>
                             <div class="glass rounded-lg p-3 text-center">
-                                <div class="text-2xl font-bold gradient-text">15+</div>
+                                <div class="text-2xl font-bold gradient-text" data-counter="15" data-suffix="+">0+</div>
                                 <div class="text-xs text-gray-600 dark:text-gray-400">Dự án</div>
                             </div>
                             <div class="glass rounded-lg p-3 text-center">
-                                <div class="text-2xl font-bold gradient-text">10+</div>
+                                <div class="text-2xl font-bold gradient-text" data-counter="10" data-suffix="+">0+</div>
                                 <div class="text-xs text-gray-600 dark:text-gray-400">Khách hàng</div>
                             </div>
                         </div>
@@ -661,6 +752,153 @@
                         <a href="#contact" class="btn-primary">
                             <i class="fas fa-envelope mr-2"></i>Liên hệ ngay
                         </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent dark:via-purple-900/10"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Kinh nghiệm & Học vấn</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Hành trình phát triển sự nghiệp và học tập của tôi
+                </p>
+            </div>
+
+            <div class="max-w-5xl mx-auto">
+                <!-- Timeline -->
+                <div class="relative">
+                    <!-- Timeline line -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"></div>
+                    
+                    <!-- Experience items -->
+                    <div class="space-y-12">
+                        <!-- Item 1 -->
+                        <div class="relative flex items-center justify-between timeline-item">
+                            <div class="w-5/12 text-right pr-8 timeline-content-left reveal">
+                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">2023 - Hiện tại</span>
+                                    <h3 class="text-xl font-bold mt-2 mb-2">Senior Frontend Developer</h3>
+                                    <h4 class="text-gray-600 dark:text-gray-400 mb-3">Tech Company ABC</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        Phát triển các ứng dụng web phức tạp với React, TypeScript. 
+                                        Lead team 5 người, tối ưu performance tăng 40%.
+                                    </p>
+                                    <div class="mt-3 flex flex-wrap gap-2 justify-end">
+                                        <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">React</span>
+                                        <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">TypeScript</span>
+                                        <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded text-xs">Node.js</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Center dot -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-indigo-500 rounded-full z-10 timeline-dot"></div>
+                            
+                            <div class="w-5/12"></div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="relative flex items-center justify-between timeline-item">
+                            <div class="w-5/12"></div>
+                            
+                            <!-- Center dot -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-purple-500 rounded-full z-10 timeline-dot"></div>
+                            
+                            <div class="w-5/12 pl-8 timeline-content-right reveal">
+                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                                    <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">2021 - 2023</span>
+                                    <h3 class="text-xl font-bold mt-2 mb-2">Frontend Developer</h3>
+                                    <h4 class="text-gray-600 dark:text-gray-400 mb-3">Digital Agency XYZ</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        Xây dựng websites và web apps cho khách hàng. 
+                                        Hoàn thành 20+ dự án thành công.
+                                    </p>
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">Vue.js</span>
+                                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">JavaScript</span>
+                                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs">Tailwind</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 - Education -->
+                        <div class="relative flex items-center justify-between timeline-item">
+                            <div class="w-5/12 text-right pr-8 timeline-content-left reveal">
+                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                                    <span class="text-sm font-semibold text-pink-600 dark:text-pink-400">2020 - 2021</span>
+                                    <h3 class="text-xl font-bold mt-2 mb-2">Junior Web Developer</h3>
+                                    <h4 class="text-gray-600 dark:text-gray-400 mb-3">Freelance</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        Bắt đầu sự nghiệp với các dự án freelance nhỏ. 
+                                        Học hỏi và phát triển kỹ năng qua thực tế.
+                                    </p>
+                                    <div class="mt-3 flex flex-wrap gap-2 justify-end">
+                                        <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">HTML/CSS</span>
+                                        <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">jQuery</span>
+                                        <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded text-xs">PHP</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Center dot -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-pink-500 rounded-full z-10 timeline-dot"></div>
+                            
+                            <div class="w-5/12"></div>
+                        </div>
+
+                        <!-- Item 4 - Education -->
+                        <div class="relative flex items-center justify-between timeline-item">
+                            <div class="w-5/12"></div>
+                            
+                            <!-- Center dot with icon -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full z-10 timeline-dot flex items-center justify-center">
+                                <i class="fas fa-graduation-cap text-white text-sm"></i>
+                            </div>
+                            
+                            <div class="w-5/12 pl-8 timeline-content-right reveal">
+                                <div class="glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+                                    <span class="text-sm font-semibold text-cyan-600 dark:text-cyan-400">2017 - 2021</span>
+                                    <h3 class="text-xl font-bold mt-2 mb-2">Cử nhân Công nghệ Thông tin</h3>
+                                    <h4 class="text-gray-600 dark:text-gray-400 mb-3">Đại học ABC</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        Tốt nghiệp loại Giỏi với GPA 3.6/4.0. 
+                                        Đạt giải Nhì cuộc thi Hackathon 2020.
+                                    </p>
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        <span class="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded text-xs">Computer Science</span>
+                                        <span class="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded text-xs">Software Engineering</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Timeline -->
+                <div class="lg:hidden mt-12">
+                    <div class="space-y-8">
+                        <!-- Mobile timeline items với left border -->
+                        <div class="relative pl-8 border-l-2 border-indigo-500 reveal">
+                            <div class="absolute -left-2 top-0 w-4 h-4 bg-white dark:bg-slate-900 border-4 border-indigo-500 rounded-full"></div>
+                            <div class="glass rounded-xl p-6">
+                                <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">2023 - Hiện tại</span>
+                                <h3 class="text-xl font-bold mt-2 mb-2">Senior Frontend Developer</h3>
+                                <h4 class="text-gray-600 dark:text-gray-400 mb-3">Tech Company ABC</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    Phát triển các ứng dụng web phức tạp với React, TypeScript.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Add more mobile items similar to desktop -->
                     </div>
                 </div>
             </div>
@@ -885,8 +1123,8 @@
                             </div>
                             <div>
                                 <div class="font-semibold">Email</div>
-                                <a href="mailto:doanvinhhung@example.com" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
-                                    doanvinhhung@example.com
+                                <a href="mailto:hungmobile457@gmail.com" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                    hungmobile457@gmail.com
                                 </a>
                             </div>
                         </div>
@@ -896,8 +1134,8 @@
                             </div>
                             <div>
                                 <div class="font-semibold">Điện thoại</div>
-                                <a href="tel:+84123456789" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
-                                    +84 123 456 789
+                                <a href="tel:+84764950871" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                    0764 950 871
                                 </a>
                             </div>
                         </div>
@@ -970,6 +1208,88 @@
             </div>
         </div>
     </footer>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <!-- Backdrop -->
+            <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closeProjectModal()"></div>
+            
+            <!-- Modal Content -->
+            <div class="relative bg-white dark:bg-slate-900 rounded-2xl max-w-4xl w-full mx-auto shadow-2xl transform transition-all">
+                <!-- Close Button -->
+                <button onclick="closeProjectModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+                <!-- Modal Body -->
+                <div class="p-8">
+                    <!-- Project Image -->
+                    <div class="relative mb-6 rounded-xl overflow-hidden">
+                        <img id="modal-image" src="" alt="" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    </div>
+                    
+                    <!-- Project Info -->
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Main Content -->
+                        <div class="md:col-span-2">
+                            <h3 id="modal-title" class="text-3xl font-bold mb-4"></h3>
+                            <p id="modal-description" class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed"></p>
+                            
+                            <!-- Features -->
+                            <div id="modal-features" class="mb-6">
+                                <h4 class="font-semibold mb-3">Tính năng chính:</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+                                    <!-- Features will be populated by JS -->
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Sidebar -->
+                        <div class="space-y-6">
+                            <!-- Tech Stack -->
+                            <div>
+                                <h4 class="font-semibold mb-3">Công nghệ:</h4>
+                                <div id="modal-tech" class="flex flex-wrap gap-2">
+                                    <!-- Tech stack will be populated by JS -->
+                                </div>
+                            </div>
+                            
+                            <!-- Project Details -->
+                            <div>
+                                <h4 class="font-semibold mb-3">Chi tiết:</h4>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Thời gian:</span>
+                                        <span id="modal-duration">2 tuần</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Vai trò:</span>
+                                        <span id="modal-role">Full-stack Developer</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Năm:</span>
+                                        <span id="modal-year">2024</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="space-y-3">
+                                <a id="modal-live-link" href="#" target="_blank" class="block w-full btn-primary text-center">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Xem Demo
+                                </a>
+                                <a id="modal-github-link" href="#" target="_blank" class="block w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-center">
+                                    <i class="fab fa-github mr-2"></i>Source Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Back to top button -->
     <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full shadow-lg opacity-0 pointer-events-none transition-all hover:scale-110">
