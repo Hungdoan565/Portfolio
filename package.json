@@ -1,0 +1,15 @@
+{
+  "name": "portfolio-doan-vinh-hung",
+  "version": "1.0.0",
+  "description": "Modern Portfolio Website - Đoàn Vĩnh Hưng",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
+  },
+  "keywords": ["portfolio", "tailwindcss", "frontend"],
+  "author": "Đoàn Vĩnh Hưng",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

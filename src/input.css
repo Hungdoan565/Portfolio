@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Root variables for theming */
+  :root {
+    --background: 255 255 255;
+    --foreground: 10 10 10;
+    --surface: 245 245 245;
+    --border: 229 229 229;
+    --primary: 59 130 246;
+    --text-primary: 10 10 10;
+    --text-secondary: 82 82 82;
+    --text-muted: 115 115 115;
+  }
+
+  .dark {
+    --background: 10 10 10;
+    --foreground: 255 255 255;
+    --surface: 26 26 26;
+    --border: 38 38 38;
+    --primary: 96 165 250;
+    --text-primary: 255 255 255;
+    --text-secondary: 163 163 163;
+    --text-muted: 115 115 115;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+  
+  body {
+    @apply font-sans antialiased;
+    @apply bg-white dark:bg-[#0a0a0a];
+    @apply text-gray-900 dark:text-gray-100;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Better Scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+    transition: background-color 0.2s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-600;
+  }
+
+  /* Focus visible for accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+}
+
+@layer components {
+  /* Improved Glassmorphism with better contrast */
+  .glass {
+    @apply backdrop-blur-xl rounded-xl;
+    @apply bg-white/80 dark:bg-gray-900/80;
+    @apply border border-gray-200/50 dark:border-gray-700/50;
+    @apply shadow-lg dark:shadow-gray-900/50;
+  }
+
+  .glass-light {
+    @apply backdrop-blur-md rounded-lg;
+    @apply bg-white/60 dark:bg-gray-800/60;
+    @apply border border-gray-200/30 dark:border-gray-700/30;
+  }
+
+  /* Better Gradient Text with fallback */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600;
+    @apply dark:from-primary-400 dark:via-purple-400 dark:to-pink-400;
+    @apply bg-clip-text text-transparent;
+    @apply font-bold;
+  }
+
+  /* Enhanced Button Styles */
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg font-semibold;
+    @apply bg-gradient-to-r from-primary-600 to-purple-600;
+    @apply text-white shadow-lg shadow-primary-500/25;
+    @apply hover:shadow-xl hover:shadow-primary-500/40;
+    @apply hover:-translate-y-0.5 active:translate-y-0;
+    @apply transition-all duration-200;
+    @apply focus:ring-4 focus:ring-primary-500/20;
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 rounded-lg font-semibold;
+    @apply border-2 border-primary-600 dark:border-primary-400;
+    @apply text-primary-700 dark:text-primary-300;
+    @apply hover:bg-primary-600 hover:text-white;
+    @apply dark:hover:bg-primary-500;
+    @apply hover:-translate-y-0.5 active:translate-y-0;
+    @apply transition-all duration-200;
+    @apply focus:ring-4 focus:ring-primary-500/20;
+  }
+
+  .btn-ghost {
+    @apply px-6 py-3 rounded-lg font-semibold;
+    @apply text-gray-700 dark:text-gray-300;
+    @apply hover:bg-gray-100 dark:hover:bg-gray-800;
+    @apply transition-all duration-200;
+  }
+
+  /* Nav Link with Underline Animation */
+  .nav-link {
+    @apply relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5;
+    @apply bg-gradient-to-r from-primary-600 to-purple-600;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply w-full;
+  }
+
+  /* Enhanced Card Styles */
+  .card {
+    @apply glass p-6;
+    @apply transition-all duration-300;
+    @apply hover:shadow-xl hover:-translate-y-1;
+    @apply hover:border-primary-300 dark:hover:border-primary-600;
+  }
+
+  .card-glow {
+    @apply card relative overflow-hidden;
+    @apply before:absolute before:inset-0;
+    @apply before:bg-gradient-to-r before:from-transparent;
+    @apply before:via-primary-500/5 before:to-transparent;
+    @apply before:-translate-x-full before:transition-transform before:duration-700;
+    @apply hover:before:translate-x-full;
+  }
+
+  .card-interactive {
+    @apply card cursor-pointer;
+    @apply hover:bg-gray-50 dark:hover:bg-gray-800/80;
+  }
+
+  /* Section Padding */
+  .section-padding {
+    @apply py-20 px-6 md:px-12 lg:px-24;
+  }
+
+  /* Animated Background */
+  .animated-gradient {
+    @apply bg-gradient-to-br from-primary-600 via-accent-purple to-accent-pink;
+    background-size: 200% 200%;
+    animation: gradient 15s ease infinite;
+  }
+}
+
+@layer utilities {
+  /* Subtle Text Shadow (not glow - too much) */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Better focus for dark mode */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-4 focus:ring-primary-500/20;
+  }
+
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
