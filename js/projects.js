@@ -7,6 +7,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop",
         description: "Nền tảng thương mại điện tử đầy đủ với giỏ hàng, thanh toán, quản lý đơn hàng và admin dashboard.",
         technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+        features: [
+            "Giỏ hàng và wishlist với local storage",
+            "Thanh toán trực tuyến tích hợp Stripe",
+            "Admin dashboard quản lý sản phẩm",
+            "Hệ thống đánh giá và review sản phẩm",
+            "Email notifications cho đơn hàng"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: true,
@@ -21,6 +28,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop",
         description: "Ứng dụng quản lý công việc với drag & drop, real-time collaboration và notifications.",
         technologies: ["React", "TypeScript", "TailwindCSS", "Firebase"],
+        features: [
+            "Drag & drop tasks giữa các columns",
+            "Real-time collaboration với nhiều users",
+            "Push notifications cho deadlines",
+            "Kanban board và List view",
+            "Filter và search tasks nâng cao"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: true,
@@ -35,6 +49,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
         description: "RESTful API với authentication, authorization, rate limiting và comprehensive documentation.",
         technologies: ["Node.js", "Express", "PostgreSQL", "JWT"],
+        features: [
+            "JWT authentication và refresh tokens",
+            "Role-based access control (RBAC)",
+            "Rate limiting và request throttling",
+            "Swagger/OpenAPI documentation",
+            "Database migrations và seeding"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: false,
@@ -49,6 +70,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop",
         description: "Website portfolio cá nhân với animations đẹp mắt, dark mode và responsive design.",
         technologies: ["HTML", "CSS", "JavaScript", "TailwindCSS"],
+        features: [
+            "Smooth scroll animations và transitions",
+            "Dark/Light mode với theme toggle",
+            "Fully responsive từ mobile đến desktop",
+            "Timeline animations cho kinh nghiệm",
+            "Dynamic projects với pagination"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: true,
@@ -63,6 +91,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=600&h=400&fit=crop",
         description: "Real-time chat app với WebSocket, typing indicators, online status và file sharing.",
         technologies: ["React", "Socket.io", "Node.js", "MongoDB"],
+        features: [
+            "Real-time messaging với WebSocket",
+            "Typing indicators và read receipts",
+            "File sharing và image uploads",
+            "Online/offline status tracking",
+            "Message history và search"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: false,
@@ -77,6 +112,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop",
         description: "Content Management System cho blog với rich text editor, SEO optimization và analytics.",
         technologies: ["Next.js", "Prisma", "PostgreSQL", "TailwindCSS"],
+        features: [
+            "Rich text editor với markdown support",
+            "SEO optimization và meta tags",
+            "Google Analytics tích hợp",
+            "Categories và tags system",
+            "Comment system với moderation"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: true,
@@ -91,6 +133,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=600&h=400&fit=crop",
         description: "Dashboard thời tiết với charts, maps, forecasts và geolocation integration.",
         technologies: ["Vue.js", "Chart.js", "OpenWeather API", "Leaflet"],
+        features: [
+            "Current weather và 7-day forecast",
+            "Interactive weather maps",
+            "Temperature và humidity charts",
+            "Geolocation auto-detect",
+            "Multiple cities management"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: false,
@@ -105,6 +154,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&h=400&fit=crop",
         description: "GraphQL API với Apollo Server, subscriptions, dataloader và type-safe schema.",
         technologies: ["Node.js", "GraphQL", "Apollo", "MongoDB"],
+        features: [
+            "Type-safe GraphQL schema",
+            "Real-time subscriptions",
+            "DataLoader cho batching queries",
+            "GraphQL Playground documentation",
+            "Error handling và validation"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: false,
@@ -119,6 +175,13 @@ const projectsData = [
         image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop",
         description: "Ứng dụng theo dõi sức khỏe với workout plans, calorie tracking và progress charts.",
         technologies: ["React", "Redux", "Chart.js", "LocalStorage"],
+        features: [
+            "Workout plans và exercise library",
+            "Calorie tracking và nutrition logs",
+            "Progress charts và statistics",
+            "Personal goals và milestones",
+            "LocalStorage data persistence"
+        ],
         liveLink: "#",
         githubLink: "#",
         featured: false,
@@ -245,7 +308,7 @@ class ProjectsManager {
                                 </a>
                             </div>
                             
-                            ${project.featured ? '<div class="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold rounded-full">Featured</div>' : ''}
+                            ${project.featured ? '<div class="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold rounded-full">Nổi bật</div>' : ''}
                         </div>
                         
                         <!-- Content -->
@@ -268,7 +331,7 @@ class ProjectsManager {
                             <!-- Technologies -->
                             <div class="flex flex-wrap gap-2">
                                 ${project.technologies.map(tech => `
-                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs">
+                                    <span class="px-3 py-1 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium border border-indigo-100 dark:border-indigo-800/50 hover:scale-105 transition-transform">
                                         ${tech}
                                     </span>
                                 `).join('')}
@@ -395,6 +458,19 @@ class ProjectsManager {
                 ${tech}
             </span>
         `).join('');
+        
+        // Features list
+        const featuresContainer = document.getElementById('modal-features');
+        if (project.features && project.features.length > 0) {
+            featuresContainer.innerHTML = `
+                <h4 class="font-semibold mb-3">Tính năng chính:</h4>
+                <ul class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+                    ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+            `;
+        } else {
+            featuresContainer.innerHTML = '';
+        }
         
         // Show modal
         document.getElementById('project-modal').classList.remove('hidden');
