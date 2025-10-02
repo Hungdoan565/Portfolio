@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Đoàn Vĩnh Hưng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+        
+        .cv-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .cv-container {
+                width: 100%;
+                height: 100%;
+                box-shadow: none;
+                page-break-after: avoid;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Print Button (hidden when printing) -->
+    <div class="no-print fixed top-4 right-4 z-50">
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 transition-all">
+            <i class="fas fa-print"></i>
+            <span>In/Lưu PDF</span>
+        </button>
+    </div>
+
+    <div class="cv-container">
+        <!-- Header Section -->
+        <div class="gradient-bg text-white p-8">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <h1 class="text-4xl font-bold mb-2">ĐOÀN VĨNH HƯNG</h1>
+                    <p class="text-xl font-medium mb-4 text-blue-100">Frontend Developer</p>
+                    
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-envelope w-4"></i>
+                            <span>hungmobile457@gmail.com</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-phone w-4"></i>
+                            <span>+84 xxx xxx xxx</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-map-marker-alt w-4"></i>
+                            <span>Việt Nam</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-github w-4"></i>
+                            <span>github.com/yourusername</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-linkedin w-4"></i>
+                            <span>linkedin.com/in/yourprofile</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Photo placeholder -->
+                <div class="ml-6">
+                    <div class="w-28 h-28 bg-white/20 rounded-full flex items-center justify-center border-4 border-white/30">
+                        <i class="fas fa-user text-5xl text-white/60"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="p-8">
+            <!-- Summary -->
+            <section class="mb-6">
+                <h2 class="section-title">GIỚI THIỆU</h2>
+                <p class="text-gray-700 text-sm leading-relaxed">
+                    Frontend Developer với hơn 2 năm kinh nghiệm trong việc phát triển các ứng dụng web hiện đại. 
+                    Đam mê tạo ra những trải nghiệm người dùng tuyệt vời với code sạch và hiệu quả. 
+                    Thành thạo HTML, CSS, JavaScript và các framework như React, Vue.js. 
+                    Có khả năng làm việc độc lập và teamwork tốt.
+                </p>
+            </section>
+
+            <!-- Skills -->
+            <section class="mb-6">
+                <h2 class="section-title">KỸ NĂNG</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Frontend -->
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-sm">Frontend Development</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">HTML5</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">CSS3</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">JavaScript</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">TypeScript</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">React</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Vue.js</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">TailwindCSS</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Sass</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Backend & Tools -->
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-sm">Backend & Tools</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Node.js</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Express</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">MongoDB</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">MySQL</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Git</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Docker</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">REST API</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Figma</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience -->
+            <section class="mb-6">
+                <h2 class="section-title">KINH NGHIỆM LÀM VIỆC</h2>
+                
+                <!-- Job 1 -->
+                <div class="mb-4">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Frontend Developer</h3>
+                        <span class="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full">01/2023 - Hiện tại</span>
+                    </div>
+                    <p class="text-sm text-blue-600 font-medium mb-2">Tech Company ABC</p>
+                    <ul class="list-disc list-inside text-xs text-gray-700 space-y-1 ml-2">
+                        <li>Phát triển và maintain các ứng dụng web sử dụng React và TypeScript</li>
+                        <li>Làm việc với team để tối ưu performance, giảm 40% load time</li>
+                        <li>Implement responsive design cho 5+ projects lớn</li>
+                        <li>Review code và mentor junior developers</li>
+                    </ul>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="mb-4">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Junior Frontend Developer</h3>
+                        <span class="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full">06/2022 - 12/2022</span>
+                    </div>
+                    <p class="text-sm text-blue-600 font-medium mb-2">Startup XYZ</p>
+                    <ul class="list-disc list-inside text-xs text-gray-700 space-y-1 ml-2">
+                        <li>Phát triển UI components với Vue.js và TailwindCSS</li>
+                        <li>Tích hợp API và xử lý state management</li>
+                        <li>Fix bugs và improve user experience</li>
+                        <li>Tham gia daily standup và sprint planning</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Projects -->
+            <section class="mb-6">
+                <h2 class="section-title">DỰ ÁN NỔI BẬT</h2>
+                
+                <!-- Project 1 -->
+                <div class="mb-3">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-bold text-gray-800 text-sm">E-Commerce Platform</h3>
+                        <span class="text-xs text-gray-600">2024</span>
+                    </div>
+                    <p class="text-xs text-gray-700 mb-1">
+                        <span class="font-medium">Tech Stack:</span> React, Node.js, MongoDB, Stripe
+                    </p>
+                    <ul class="list-disc list-inside text-xs text-gray-700 space-y-0.5 ml-2">
+                        <li>Xây dựng full-stack e-commerce với giỏ hàng và thanh toán</li>
+                        <li>Implement admin dashboard để quản lý sản phẩm</li>
+                        <li>Tích hợp Stripe payment gateway</li>
+                    </ul>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="mb-3">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Task Management App</h3>
+                        <span class="text-xs text-gray-600">2024</span>
+                    </div>
+                    <p class="text-xs text-gray-700 mb-1">
+                        <span class="font-medium">Tech Stack:</span> React, TypeScript, Firebase
+                    </p>
+                    <ul class="list-disc list-inside text-xs text-gray-700 space-y-0.5 ml-2">
+                        <li>Ứng dụng quản lý công việc với drag & drop</li>
+                        <li>Real-time collaboration với nhiều users</li>
+                        <li>Responsive design và PWA support</li>
+                    </ul>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="mb-3">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Portfolio Website</h3>
+                        <span class="text-xs text-gray-600">2024</span>
+                    </div>
+                    <p class="text-xs text-gray-700 mb-1">
+                        <span class="font-medium">Tech Stack:</span> HTML, CSS, JavaScript, TailwindCSS
+                    </p>
+                    <ul class="list-disc list-inside text-xs text-gray-700 space-y-0.5 ml-2">
+                        <li>Personal portfolio với animations đẹp mắt</li>
+                        <li>Dark/Light mode và fully responsive</li>
+                        <li>Contact form tích hợp EmailJS</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section class="mb-6">
+                <h2 class="section-title">HỌC VẤN</h2>
+                <div class="mb-3">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Cử nhân Công nghệ Thông tin</h3>
+                        <span class="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full">2018 - 2022</span>
+                    </div>
+                    <p class="text-sm text-blue-600 font-medium">Đại học ABC</p>
+                    <p class="text-xs text-gray-700 mt-1">GPA: 3.5/4.0 | Chuyên ngành: Phát triển phần mềm</p>
+                </div>
+            </section>
+
+            <!-- Certifications -->
+            <section class="mb-6">
+                <h2 class="section-title">CHỨNG CHỈ</h2>
+                <div class="space-y-2">
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-certificate text-blue-600 mt-0.5 text-xs"></i>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">React - The Complete Guide</p>
+                            <p class="text-xs text-gray-600">Udemy • 2023</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-certificate text-blue-600 mt-0.5 text-xs"></i>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">JavaScript Algorithms and Data Structures</p>
+                            <p class="text-xs text-gray-600">freeCodeCamp • 2022</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-certificate text-blue-600 mt-0.5 text-xs"></i>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">Responsive Web Design</p>
+                            <p class="text-xs text-gray-600">freeCodeCamp • 2022</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Languages & Interests -->
+            <div class="grid grid-cols-2 gap-6">
+                <section>
+                    <h2 class="section-title">NGÔN NGỮ</h2>
+                    <div class="space-y-2">
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">Tiếng Việt</p>
+                            <p class="text-xs text-gray-600">Bản ngữ</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">Tiếng Anh</p>
+                            <p class="text-xs text-gray-600">Trung cấp (B1-B2)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="section-title">SỞ THÍCH</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                            <i class="fas fa-code mr-1"></i>Coding
+                        </span>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                            <i class="fas fa-book mr-1"></i>Đọc sách
+                        </span>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                            <i class="fas fa-music mr-1"></i>Âm nhạc
+                        </span>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                            <i class="fas fa-gamepad mr-1"></i>Gaming
+                        </span>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-50 px-8 py-4 text-center border-t border-gray-200">
+            <p class="text-xs text-gray-600">
+                <i class="fas fa-envelope mr-2"></i>hungmobile457@gmail.com
+                <span class="mx-3">•</span>
+                <i class="fas fa-phone mr-2"></i>+84 xxx xxx xxx
+                <span class="mx-3">•</span>
+                <i class="fas fa-globe mr-2"></i>yourportfolio.com
+            </p>
+        </div>
+    </div>
+</body>
+</html>
