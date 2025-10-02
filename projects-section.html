@@ -1,0 +1,161 @@
+<!-- Projects Section - Thêm vào sau Skills Section -->
+<section id="projects" class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-pink-50/20 to-transparent dark:via-pink-900/10"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center mb-16 reveal">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4">
+                <span class="gradient-text">Dự Án Của Tôi</span>
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                Một số dự án tôi đã thực hiện với đam mê và sự tận tâm
+            </p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+            <button class="project-filter active" data-category="all">
+                <i class="fas fa-th-large mr-2"></i>Tất cả
+            </button>
+            <button class="project-filter" data-category="frontend">
+                <i class="fas fa-palette mr-2"></i>Frontend
+            </button>
+            <button class="project-filter" data-category="backend">
+                <i class="fas fa-server mr-2"></i>Backend
+            </button>
+            <button class="project-filter" data-category="fullstack">
+                <i class="fas fa-layer-group mr-2"></i>Full-stack
+            </button>
+        </div>
+
+        <!-- Projects Stats -->
+        <div id="project-stats" class="text-center mb-8"></div>
+
+        <!-- Projects Grid Container -->
+        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-opacity duration-300">
+            <!-- Projects will be rendered here by JavaScript -->
+        </div>
+
+        <!-- Pagination Container -->
+        <div id="pagination-container"></div>
+    </div>
+</section>
+
+<!-- CSS cho Pagination và Filters -->
+<style>
+    /* Project Filter Buttons */
+    .project-filter {
+        padding: 12px 24px;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: rgba(99, 102, 241, 0.1);
+        color: rgb(99, 102, 241);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .project-filter:hover {
+        background: rgba(99, 102, 241, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .project-filter.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .dark .project-filter {
+        background: rgba(99, 102, 241, 0.15);
+        color: rgb(129, 140, 248);
+    }
+    
+    .dark .project-filter.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    /* Pagination Buttons */
+    .pagination-btn {
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        background: white;
+        color: #6b7280;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .pagination-btn:hover:not(.disabled) {
+        background: #6366f1;
+        border-color: #6366f1;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+    
+    .pagination-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .pagination-btn.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+    
+    .dark .pagination-btn {
+        background: #1e293b;
+        border-color: #334155;
+        color: #94a3b8;
+    }
+    
+    .dark .pagination-btn:hover:not(.disabled) {
+        background: #6366f1;
+        border-color: #6366f1;
+        color: white;
+    }
+    
+    .dark .pagination-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    /* Project Card Stagger Animation */
+    .project-card.stagger {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    
+    .project-card.stagger.active {
+        animation: projectCardFadeIn 0.6s ease-out forwards;
+    }
+    
+    @keyframes projectCardFadeIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Line Clamp for description */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
