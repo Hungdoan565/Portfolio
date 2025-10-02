@@ -1,0 +1,15 @@
+# robots.txt for doanvinhhung-portfolio.netlify.app
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://doanvinhhung-portfolio.netlify.app/sitemap.xml
+
+# Disallow specific files (if any)
+Disallow: /js/
+Disallow: /email-templates/
+Disallow: /cv-template.html
+
+# Crawl-delay (optional, helps prevent server overload)
+Crawl-delay: 1
