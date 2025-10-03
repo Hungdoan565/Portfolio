@@ -75,10 +75,13 @@ const projectsData = [
             "Dark/Light mode với theme toggle",
             "Fully responsive từ mobile đến desktop",
             "Timeline animations cho kinh nghiệm",
-            "Dynamic projects với pagination"
+            "Dynamic projects với pagination",
+            "PWA support với Service Worker",
+            "EmailJS integration cho contact form",
+            "SEO optimized với meta tags đầy đủ"
         ],
-        liveLink: "#",
-        githubLink: "#",
+        liveLink: "https://hungdoan-portfolio.netlify.app/",
+        githubLink: "https://github.com/Hungdoan565/Portfolio",
         featured: true,
         year: 2024,
         duration: "2 tuần",
@@ -188,6 +191,54 @@ const projectsData = [
         year: 2023,
         duration: "1 tháng",
         role: "Frontend Developer"
+    },
+    {
+        id: 10,
+        title: "Quản Lí Khách Sạn",
+        category: "csharp",
+        image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",
+        description: "Hệ thống quản lý khách sạn hoàn chỉnh với C# WinForms, quản lý đặt phòng, khách hàng và dịch vụ.",
+        technologies: ["C#", "WinForms", "SQL Server", ".NET Framework"],
+        features: [
+            "Quản lý thông tin khách hàng (frmKhachHang)",
+            "Hệ thống đặt phòng (frmDatPhong)", 
+            "Quản lý phòng và loại phòng (frmPhong)",
+            "Quản lý dịch vụ khách sạn (frmSuDungDV)",
+            "Báo cáo doanh thu và thống kê",
+            "Giao diện thân thiện với người dùng",
+            "Kết nối SQL Server database",
+            "Xử lý nghiệp vụ khách sạn hoàn chỉnh"
+        ],
+        liveLink: "#", 
+        githubLink: "https://github.com/Hungdoan565/Quan_Li_Khach_San.git", 
+        featured: true,
+        year: 2023,
+        duration: "2 tuần", 
+        role: "C#"
+    },
+    {
+        id: 11,
+        title: "Quản Lí Học Sinh",
+        category: "csharp",
+        image: "https://images.unsplash.com/photo-1523050854058-8df90110c9d1?w=600&h=400&fit=crop",
+        description: "Hệ thống quản lý học sinh hoàn chỉnh với C# WinForms, quản lý điểm, lớp học và giáo viên.",
+        technologies: ["C#", "WinForms", "SQL Server", "Crystal Reports", ".NET Framework"],
+        features: [
+            "Quản lý thông tin học sinh chi tiết",
+            "Phân công lớp học và giáo viên phụ trách",
+            "Nhập và quản lý điểm số theo môn học",
+            "Báo cáo kết quả học tập và thống kê",
+            "Tìm kiếm và lọc dữ liệu nhanh chóng",
+            "Giao diện thân thiện, dễ sử dụng",
+            "In ấn bảng điểm và báo cáo",
+            "Bảo mật dữ liệu với phân quyền"
+        ],
+        liveLink: "#",
+        githubLink: "#",
+        featured: false,
+        year: 2023,
+        duration: "3 tuần",
+        role: "C#"
     }
 ];
 
@@ -218,6 +269,7 @@ class ProjectsManager {
         const frontendCount = this.projects.filter(p => p.category === 'frontend').length;
         const backendCount = this.projects.filter(p => p.category === 'backend').length;
         const fullstackCount = this.projects.filter(p => p.category === 'fullstack').length;
+        const csharpCount = this.projects.filter(p => p.category === 'csharp').length;
         
         document.querySelector('[data-category="all"]').innerHTML = 
             `<i class="fas fa-th-large mr-2"></i>Tất cả <span class="ml-2 px-2 py-0.5 bg-white/20 rounded-full text-xs">${allCount}</span>`;
@@ -227,6 +279,8 @@ class ProjectsManager {
             `<i class="fas fa-server mr-2"></i>Backend <span class="ml-2 px-2 py-0.5 bg-white/20 rounded-full text-xs">${backendCount}</span>`;
         document.querySelector('[data-category="fullstack"]').innerHTML = 
             `<i class="fas fa-layer-group mr-2"></i>Full-stack <span class="ml-2 px-2 py-0.5 bg-white/20 rounded-full text-xs">${fullstackCount}</span>`;
+        document.querySelector('[data-category="csharp"]').innerHTML = 
+            `<i class="fab fa-windows mr-2"></i>C# <span class="ml-2 px-2 py-0.5 bg-white/20 rounded-full text-xs">${csharpCount}</span>`;
     }
     
     setupFilters() {
@@ -433,7 +487,8 @@ class ProjectsManager {
             'all': 'Tất cả',
             'frontend': 'Frontend',
             'backend': 'Backend',
-            'fullstack': 'Full-stack'
+            'fullstack': 'Full-stack',
+            'desktop': 'C#'
         };
         return labels[category] || category;
     }
