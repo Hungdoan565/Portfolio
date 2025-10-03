@@ -155,7 +155,7 @@ setInterval(() => {
     if (window.location.pathname !== lastPath) {
         lastPath = window.location.pathname;
         if (Analytics.isGALoaded()) {
-            gtag('config', 'G-XXXXXXXXXX', {
+            gtag('config', 'G-S24B41QKJW', {
                 'page_path': lastPath
             });
             console.log(`📊 GA4: Page view tracked - ${lastPath}`);

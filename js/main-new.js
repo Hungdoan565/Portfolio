@@ -751,18 +751,12 @@
             submitBtn.disabled = true;
             
             try {
-                console.log('📤 Sending email...');
-                console.log('📋 Form data:', formData);
                 
                 if (typeof emailjs !== 'undefined') {
                     // EmailJS Configuration - VERIFIED ✅
                     const SERVICE_ID = "service_x0siako";      // Service ID
                     const TEMPLATE_ID = "template_kxprilp";    // Template ID
                     
-                    console.log('📧 Using EmailJS Config:');
-                    console.log('   Service ID:', SERVICE_ID);
-                    console.log('   Template ID:', TEMPLATE_ID);
-                    console.log('📋 Form Data:', formData);
                     
                     // Send email using EmailJS
                     const response = await emailjs.send(
