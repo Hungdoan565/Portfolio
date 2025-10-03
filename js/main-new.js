@@ -670,8 +670,8 @@
         console.log('📧 EmailJS loaded?', typeof emailjs !== 'undefined');
         
         if (typeof emailjs !== 'undefined') {
-            emailjs.init("wE_iY_vjEb7NPGCq7"); // Public Key: wE_iY_vjEb7NPGCq7
-            console.log('✅ EmailJS initialized with key: wE_iY_vjEb7NPGCq7');
+            emailjs.init("wE_iY_vjEb7NPGCq7"); // Public Key
+            console.log('✅ EmailJS initialized');
         } else {
             console.error('❌ EmailJS not loaded!');
         }
@@ -1039,7 +1039,7 @@
         initScrollManager(); // Unified scroll handler
         initNumberCounter();
         initTimelineAnimation();
-        initProjects();
+        // initProjects(); // Disabled - using projects.js instead
         initContactForm();
         initBackToTop();
         initSmoothScroll();

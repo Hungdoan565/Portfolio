@@ -2242,7 +2242,7 @@
                 <div class="p-8">
                     <!-- Project Image -->
                     <div class="relative mb-6 rounded-xl overflow-hidden">
-                        <img id="modal-image" src="" alt="" class="w-full h-64 object-cover">
+<img id="modal-image" src="" alt="Hình ảnh dự án" loading="lazy" decoding="async" class="w-full h-64 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                     </div>
                     
@@ -2317,5 +2317,28 @@
     <script src="./js/skill-modal.js"></script>
     <script src="./js/timeline-animations.js"></script>
     <script src="./js/projects.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('✅ SW registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('❌ SW registration failed:', error);
+                    });
+            });
+        }
+        
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('💾 PWA can be installed');
+        });
+    </script>
 </body>
 </html>
