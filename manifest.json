@@ -1,0 +1,69 @@
+{
+  "name": "Đoàn Vĩnh Hưng - Frontend Developer Portfolio",
+  "short_name": "DVH Portfolio",
+  "description": "Portfolio website của Đoàn Vĩnh Hưng - Frontend Developer with React, Node.js, Python",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://ui-avatars.com/api/?name=Doan+Vinh+Hung&size=192&background=667eea&color=fff&bold=true",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://ui-avatars.com/api/?name=Doan+Vinh+Hung&size=512&background=667eea&color=fff&bold=true",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "developer", "technology"],
+  "lang": "vi-VN",
+  "dir": "ltr",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Xem Dự Án",
+      "short_name": "Dự Án",
+      "description": "Xem các dự án của tôi",
+      "url": "/#projects",
+      "icons": [
+        {
+          "src": "https://ui-avatars.com/api/?name=P&size=96&background=667eea&color=fff&bold=true",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Liên Hệ",
+      "short_name": "Liên Hệ",
+      "description": "Liên hệ với tôi",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "https://ui-avatars.com/api/?name=C&size=96&background=667eea&color=fff&bold=true",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Tải CV",
+      "short_name": "CV",
+      "description": "Tải CV PDF của tôi",
+      "url": "/Doan-Vinh-Hung-CV.pdf",
+      "icons": [
+        {
+          "src": "https://ui-avatars.com/api/?name=CV&size=96&background=10b981&color=fff&bold=true",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

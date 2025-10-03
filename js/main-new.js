@@ -566,8 +566,14 @@
             }
         ];
 
-        const projectsGrid = document.getElementById('projects-grid');
-        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectsGrid = document.getElementById('projects-container');
+        const filterButtons = document.querySelectorAll('.project-filter');
+        
+        // Check if elements exist
+        if (!projectsGrid) {
+            console.error('❌ Projects container not found!');
+            return;
+        }
         
         // Render projects
         const renderProjects = (filter = 'all') => {

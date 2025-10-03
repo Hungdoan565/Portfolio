@@ -99,7 +99,7 @@ class ContactForm {
     }
 }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    new ContactForm();
-});
+// Initialize - DISABLED to avoid conflict with main-new.js
+// document.addEventListener('DOMContentLoaded', () => {
+//     new ContactForm();
+// });
