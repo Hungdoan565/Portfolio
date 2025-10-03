@@ -266,6 +266,28 @@ const projectsData = [
         duration: "3 ngày",
         role: "Frontend Developer"
     },
+    {
+    id: 13,
+    title: "SkycastVN - Ứng dụng Dự báo Thời tiết",
+    category: "frontend",
+    image: "https://as1.ftcdn.net/v2/jpg/04/91/54/18/1000_F_491541875_c0vIhFwHnRZvmRfJELvJxtSQbRDOwbGC.jpg",
+    description: "Ứng dụng dự báo thời tiết hiện đại cho người Việt Nam với giao diện thân thiện, tìm kiếm thông minh và bản đồ tương tác.",
+    technologies: ["JavaScript", "HTML5", "CSS3", "AccuWeather API"],
+    features: [
+        "Tìm kiếm thông minh với autocomplete cho 10 thành phố VN",
+        "Định vị thủ công tôn trọng quyền riêng tư người dùng", 
+        "Bản đồ tương tác với OpenStreetMap và Leaflet.js",
+        "Dark/Light mode với giao diện responsive",
+        "Dự báo theo giờ và 5 ngày với chất lượng không khí",
+        "Chế độ Demo và API thực để test và production"
+    ],
+    liveLink: "https://skycast-vn.netlify.app/",
+    githubLink: "https://github.com/Hungdoan565/skycast-vn",
+    featured: true,
+    year: 2023,
+    duration: "2 tuần",
+    role: "Frontend Developer"
+}
 ];
 
 // Projects Pagination System
