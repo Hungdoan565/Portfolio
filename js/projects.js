@@ -239,7 +239,33 @@ const projectsData = [
         year: 2023,
         duration: "3 tuần",
         role: "C#"
-    }
+    },
+    {
+        id: 12,
+        title: "To-do App",
+        category: "frontend",
+        image: "https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        description: "Ứng dụng quản lý công việc hiện đại với tìm kiếm, thanh tiến độ, dark/light mode, drag & drop và lưu trữ LocalStorage. Giao diện đẹp, animation mượt, tối ưu cho portfolio.",
+        technologies: ["HTML5", "CSS3", "JavaScript (ES6+)"],
+        features: [
+            "Thêm / sửa / xóa / đánh dấu hoàn thành",
+            "Bộ lọc trạng thái: All / Active / Completed",
+            "Priority cho task: 🟢 Low / 🟡 Medium / 🔴 High",
+            "Tìm kiếm real-time theo nội dung task",
+            "Progress bar hiển thị % hoàn thành (shimmer animation)",
+            "Thống kê Total / Active / Done với counter animation",
+            "Drag & drop sắp xếp thứ tự task",
+            "Dark/Light mode với lưu trạng thái",
+            "Toast notifications thay cho alert/confirm",
+            "Lưu dữ liệu vĩnh viễn bằng LocalStorage"
+            ],
+        liveLink: "https://checkly-app.netlify.app/",
+        githubLink: "https://github.com/Hungdoan565/to-do-app",
+        featured: true,
+        year: 2023,
+        duration: "3 ngày",
+        role: "Frontend Developer"
+    },
 ];
 
 // Projects Pagination System
