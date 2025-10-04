@@ -2305,10 +2305,10 @@
                             
                             <!-- Action Buttons -->
                             <div class="space-y-3">
-                                <a id="modal-live-link" href="#" target="_blank" class="block w-full btn-primary text-center">
+                                <a id="modal-live-link" href="#" target="_blank" class="block w-full btn-primary text-center" style="pointer-events: auto !important; position: relative; z-index: 10;">
                                     <i class="fas fa-external-link-alt mr-2"></i>Xem Demo
                                 </a>
-                                <a id="modal-github-link" href="#" target="_blank" class="block w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-center">
+                                <a id="modal-github-link" href="#" target="_blank" class="block w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-center" style="pointer-events: auto !important; position: relative; z-index: 10;">
                                     <i class="fab fa-github mr-2"></i>Source Code
                                 </a>
                             </div>
@@ -2329,6 +2329,90 @@
     <script src="./js/skill-modal.js"></script>
     <script src="./js/timeline-animations.js"></script>
     <script src="./js/projects.js"></script>
+    
+    <!-- DEBUG SCRIPT - Remove after testing -->
+    <script>
+        // Debug function to test links directly
+        function testLinks() {
+            console.log('=== TESTING LINKS ===');
+            const liveBtn = document.getElementById('modal-live-link');
+            const githubBtn = document.getElementById('modal-github-link');
+            
+            console.log('Live button:', liveBtn);
+            console.log('Live href:', liveBtn?.href);
+            console.log('Live target:', liveBtn?.target);
+            console.log('Live pointer-events:', getComputedStyle(liveBtn)?.pointerEvents);
+            console.log('Live onclick:', liveBtn?.onclick);
+            
+            console.log('GitHub button:', githubBtn);
+            console.log('GitHub href:', githubBtn?.href);
+            console.log('GitHub target:', githubBtn?.target);
+            console.log('GitHub pointer-events:', getComputedStyle(githubBtn)?.pointerEvents);
+            console.log('GitHub onclick:', githubBtn?.onclick);
+            
+            // Add test click listeners
+            if (liveBtn) {
+                liveBtn.addEventListener('click', function(e) {
+                    console.log('🔗 Live link clicked!', e);
+                    console.log('Event target:', e.target);
+                    console.log('Current href:', this.href);
+                }, true); // Use capture phase
+            }
+            
+            if (githubBtn) {
+                githubBtn.addEventListener('click', function(e) {
+                    console.log('🐙 GitHub link clicked!', e);
+                    console.log('Event target:', e.target);
+                    console.log('Current href:', this.href);
+                }, true); // Use capture phase
+            }
+            
+            // Add manual test buttons to console
+            console.log('\n🧪 Manual Test Commands:');
+            console.log('testLiveLink() - Test live demo link');
+            console.log('testGitHubLink() - Test GitHub link');
+            
+            // Make test functions global
+            window.testLiveLink = function() {
+                if (liveBtn && liveBtn.href && liveBtn.href !== 'javascript:void(0)') {
+                    console.log('🚀 Opening live link:', liveBtn.href);
+                    window.open(liveBtn.href, '_blank');
+                } else {
+                    console.log('❌ Live link not available');
+                }
+            };
+            
+            window.testGitHubLink = function() {
+                if (githubBtn && githubBtn.href && githubBtn.href !== 'javascript:void(0)') {
+                    console.log('🚀 Opening GitHub link:', githubBtn.href);
+                    window.open(githubBtn.href, '_blank');
+                } else {
+                    console.log('❌ GitHub link not available');
+                }
+            };
+        }
+        
+        // Auto-run debug when modal opens
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.target.id === 'project-modal' && 
+                    !mutation.target.classList.contains('hidden')) {
+                    console.log('Modal opened - running debug...');
+                    setTimeout(testLinks, 500);
+                }
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('project-modal');
+            if (modal) {
+                observer.observe(modal, { 
+                    attributes: true, 
+                    attributeFilter: ['class'] 
+                });
+            }
+        });
+    </script>
     
     <!-- PWA Service Worker Registration -->
     <script>

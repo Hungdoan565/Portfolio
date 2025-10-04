@@ -14,8 +14,8 @@ const projectsData = [
             "Hệ thống đánh giá và review sản phẩm",
             "Email notifications cho đơn hàng"
         ],
-        liveLink: "#",
-        githubLink: "#",
+        liveLink: "#", // Demo chưa deploy
+        githubLink: "#", // Private repository
         featured: true,
         year: 2024,
         duration: "3 tháng",
@@ -35,8 +35,8 @@ const projectsData = [
             "Kanban board và List view",
             "Filter và search tasks nâng cao"
         ],
-        liveLink: "#",
-        githubLink: "#",
+        liveLink: "#", // Demo chưa deploy
+        githubLink: "#", // Private repository
         featured: true,
         year: 2024,
         duration: "2 tháng",
@@ -128,27 +128,6 @@ const projectsData = [
         year: 2024,
         duration: "6 tuần",
         role: "Full-stack Developer"
-    },
-    {
-        id: 7,
-        title: "Weather Dashboard",
-        category: "frontend",
-        image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=600&h=400&fit=crop",
-        description: "Dashboard thời tiết với charts, maps, forecasts và geolocation integration.",
-        technologies: ["Vue.js", "Chart.js", "OpenWeather API", "Leaflet"],
-        features: [
-            "Current weather và 7-day forecast",
-            "Interactive weather maps",
-            "Temperature và humidity charts",
-            "Geolocation auto-detect",
-            "Multiple cities management"
-        ],
-        liveLink: "#",
-        githubLink: "#",
-        featured: false,
-        year: 2023,
-        duration: "3 tuần",
-        role: "Frontend Developer"
     },
     {
         id: 8,
@@ -267,7 +246,7 @@ const projectsData = [
         role: "Frontend Developer"
     },
     {
-    id: 13,
+    id: 7,
     title: "SkycastVN - Ứng dụng Dự báo Thời tiết",
     category: "frontend",
     image: "https://as1.ftcdn.net/v2/jpg/04/91/54/18/1000_F_491541875_c0vIhFwHnRZvmRfJELvJxtSQbRDOwbGC.jpg",
@@ -282,12 +261,12 @@ const projectsData = [
         "Chế độ Demo và API thực để test và production"
     ],
     liveLink: "https://skycast-vn.netlify.app/",
-    githubLink: "https://github.com/Hungdoan565/skycast-vn",
+    githubLink: "https://github.com/Hungdoan565/weather-app",
     featured: true,
     year: 2023,
     duration: "2 tuần",
     role: "Frontend Developer"
-}
+    }
 ];
 
 // Projects Pagination System
@@ -399,16 +378,24 @@ class ProjectsManager {
                             
                             <!-- Overlay buttons -->
                             <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                ${this.isValidLink(project.liveLink) ? `
                                 <a href="${project.liveLink}" target="_blank" 
                                    class="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-500 hover:text-white transition-all transform hover:scale-110"
                                    onclick="event.stopPropagation()">
                                     <i class="fas fa-external-link-alt"></i>
-                                </a>
+                                </a>` : `
+                                <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center cursor-not-allowed opacity-50" title="Demo chưa có sẵn">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </div>`}
+                                ${this.isValidLink(project.githubLink) ? `
                                 <a href="${project.githubLink}" target="_blank" 
                                    class="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-500 hover:text-white transition-all transform hover:scale-110"
                                    onclick="event.stopPropagation()">
                                     <i class="fab fa-github"></i>
-                                </a>
+                                </a>` : `
+                                <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center cursor-not-allowed opacity-50" title="Source code không công khai">
+                                    <i class="fab fa-github"></i>
+                                </div>`}
                             </div>
                             
                             ${project.featured ? '<div class="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold rounded-full">Nổi bật</div>' : ''}
@@ -530,13 +517,17 @@ class ProjectsManager {
         document.getElementById('projects').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
+    isValidLink(link) {
+        return link && link !== '#' && link !== '' && link.startsWith('http');
+    }
+    
     getCategoryLabel(category) {
         const labels = {
             'all': 'Tất cả',
             'frontend': 'Frontend',
             'backend': 'Backend',
             'fullstack': 'Full-stack',
-            'desktop': 'C#'
+            'csharp': 'C#'
         };
         return labels[category] || category;
     }
@@ -552,8 +543,70 @@ class ProjectsManager {
         document.getElementById('modal-duration').textContent = project.duration;
         document.getElementById('modal-role').textContent = project.role;
         document.getElementById('modal-year').textContent = project.year;
-        document.getElementById('modal-live-link').href = project.liveLink;
-        document.getElementById('modal-github-link').href = project.githubLink;
+        // Update modal buttons based on link availability
+        const liveLinkBtn = document.getElementById('modal-live-link');
+        const githubLinkBtn = document.getElementById('modal-github-link');
+        
+        // Debug logging
+        console.log(`Project: ${project.title}`);
+        console.log(`Live Link: ${project.liveLink} - Valid: ${this.isValidLink(project.liveLink)}`);
+        console.log(`GitHub Link: ${project.githubLink} - Valid: ${this.isValidLink(project.githubLink)}`);
+        
+        // Reset both buttons first
+        liveLinkBtn.removeAttribute('onclick');
+        githubLinkBtn.removeAttribute('onclick');
+        
+        if (this.isValidLink(project.liveLink)) {
+            liveLinkBtn.href = project.liveLink;
+            liveLinkBtn.target = '_blank';
+            liveLinkBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+            liveLinkBtn.style.pointerEvents = 'auto';
+            liveLinkBtn.style.display = 'block';
+            liveLinkBtn.title = 'Xem demo trực tuyến';
+            
+            // Add direct click handler as backup
+            liveLinkBtn.onclick = function(e) {
+                e.stopPropagation();
+                console.log('Direct click handler - opening:', project.liveLink);
+                window.open(project.liveLink, '_blank');
+                return false;
+            };
+            
+            console.log('Live link enabled:', project.liveLink);
+        } else {
+            liveLinkBtn.href = 'javascript:void(0)';
+            liveLinkBtn.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+            liveLinkBtn.style.pointerEvents = 'none';
+            liveLinkBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); return false; };
+            liveLinkBtn.title = 'Demo chưa có sẵn';
+            console.log('Live link disabled');
+        }
+        
+        if (this.isValidLink(project.githubLink)) {
+            githubLinkBtn.href = project.githubLink;
+            githubLinkBtn.target = '_blank';
+            githubLinkBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+            githubLinkBtn.style.pointerEvents = 'auto';
+            githubLinkBtn.style.display = 'block';
+            githubLinkBtn.title = 'Xem source code trên GitHub';
+            
+            // Add direct click handler as backup
+            githubLinkBtn.onclick = function(e) {
+                e.stopPropagation();
+                console.log('Direct click handler - opening:', project.githubLink);
+                window.open(project.githubLink, '_blank');
+                return false;
+            };
+            
+            console.log('GitHub link enabled:', project.githubLink);
+        } else {
+            githubLinkBtn.href = 'javascript:void(0)';
+            githubLinkBtn.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+            githubLinkBtn.style.pointerEvents = 'none';
+            githubLinkBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); return false; };
+            githubLinkBtn.title = 'Source code không công khai';
+            console.log('GitHub link disabled');
+        }
         
         // Tech stack
         const techContainer = document.getElementById('modal-tech');
